@@ -1,0 +1,54 @@
+﻿@model PagedList.IPagedList<DoAnWeb.Models.MATHANG>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "IndexLaptop";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+
+        a div:hover img {
+            position: relative;
+            top: -5px;
+        }
+
+        a div:hover div {
+            color: dodgerblue;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <a style="text-decoration:none; color: black;" href="@Url.Action("Details", "User", new { id = item.MAMH})">
+                    <div class="col-lg-3" style="
+            width: 20%;
+            border: solid 2px #808080;
+            padding-top: 1em;
+            border-radius: 2px;">
+                        <img style="width: 100%;" src="/Images/Products/@Html.DisplayFor(modelItem => item.ANH)" />
+                        <hr />
+                        <div style="margin-left: 1em; margin-right: 1em;">
+                            @Html.DisplayFor(modelItem => item.TENMH)
+                            <h4 style="color: red">
+                                @Html.DisplayFor(modelItem => item.DONGIA)
+                            </h4>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    </div>
+</body>
+</html>

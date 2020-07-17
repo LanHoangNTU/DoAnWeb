@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="275b7fffaad848fe8ad30add2c600eea" Name="Diagram1">
+        <EntityTypeShape EntityType="MTPKModel.ANHMINHHOA" Width="1.5" PointX="5.25" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MTPKModel.BINHLUAN" Width="1.5" PointX="5.25" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="MTPKModel.CTGIOHANG" Width="1.5" PointX="8.25" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MTPKModel.DANHGIA" Width="1.5" PointX="5.25" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MTPKModel.GIOHANG" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MTPKModel.LOAIMATHANG" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MTPKModel.MATHANG" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MTPKModel.NHASANXUAT" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MTPKModel.PHUONGTHUCTHANHTOAN" Width="1.5" PointX="3.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="MTPKModel.PHUONGXA" Width="1.5" PointX="8.25" PointY="20.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MTPKModel.QUANHUYEN" Width="1.5" PointX="6" PointY="20.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MTPKModel.QUANTRIVIEN" Width="1.5" PointX="0.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MTPKModel.THANHPHO" Width="1.5" PointX="3.75" PointY="20.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MTPKModel.THONGSOKYTHUAT" Width="1.5" PointX="5.25" PointY="16.625" IsExpanded="true" />
+        <AssociationConnector Association="MTPKModel.FK__ANHMINHHOA__MAMH__403A8C7D" ManuallyRouted="false" />
+        <AssociationConnector Association="MTPKModel.FK__BINHLUAN__MAMH__4316F928" ManuallyRouted="false" />
+        <AssociationConnector Association="MTPKModel.FK__CTGIOHANG__MAGH__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="MTPKModel.FK__CTGIOHANG__MAMH__3D5E1FD2" ManuallyRouted="false" />
+        <AssociationConnector Association="MTPKModel.FK__DANHGIA__MAMH__45F365D3" ManuallyRouted="false" />
+        <AssociationConnector Association="MTPKModel.FK__GIOHANG__MAPTTT__398D8EEE" ManuallyRouted="false" />
+        <AssociationConnector Association="MTPKModel.FK__GIOHANG__MATP__38996AB5" ManuallyRouted="false" />
+        <AssociationConnector Association="MTPKModel.FK__MATHANG__MALOAI__286302EC" ManuallyRouted="false" />
+        <AssociationConnector Association="MTPKModel.FK__MATHANG__MANSX__29572725" ManuallyRouted="false" />
+        <AssociationConnector Association="MTPKModel.FK__THONGSOKYT__MAMH__2C3393D0" ManuallyRouted="false" />
+        <AssociationConnector Association="MTPKModel.FK__PHUONGXA__MAQH__33D4B598" ManuallyRouted="false" />
+        <AssociationConnector Association="MTPKModel.FK__QUANHUYEN__MATP__30F848ED" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

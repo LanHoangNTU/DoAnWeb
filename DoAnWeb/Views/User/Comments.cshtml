@@ -1,0 +1,174 @@
+﻿@model PagedList.IPagedList<DoAnWeb.Models.BINHLUAN>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Comments";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    DoAnWeb.Models.MATHANG mh = @ViewBag.MH;
+    DoAnWeb.Models.BINHLUAN bl = new DoAnWeb.Models.BINHLUAN();
+}
+
+<html>
+<head>
+    <link rel="stylesheet" href="/Content/chart.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        .full-width{
+            width:100%;
+        }
+        textarea {
+            max-width: 100%;
+            min-width: 100%;
+            min-height: 150px;
+            max-height: 350px;
+            border-radius: 10px;
+        }
+
+        div .bordered {
+            border-radius: 8px;
+        }
+
+        div .right-border {
+            border-bottom-right-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .v-center {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .mua {
+            width: 100%;
+            display: inline-block;
+            padding: 0.46em 1.6em;
+            border: 0.1em solid #000000;
+            margin: 0 0.2em 0.2em 0;
+            border-radius: 0.12em;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-family: 'Roboto',sans-serif;
+            font-weight: 300;
+            color: #000000;
+            text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+            background-color: #ff6a00;
+            text-align: center;
+            transition: all 0.15s;
+            border-radius: 5px;
+        }
+        .mua-2 {
+            width: 100%;
+            display: inline-block;
+            padding: 0.46em 1.6em;
+            border: 0.1em solid #000000;
+            margin: 0 0.2em 0.2em 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-family: 'Roboto',sans-serif;
+            font-weight: 300;
+            color: #000000;
+            border-radius: 5px;
+        }
+            .mua:hover {
+                text-shadow: 0 0 2em rgba(255,255,255,1);
+                color: #FFFFFF;
+                border-color: #FFFFFF;
+            }
+    </style>
+</head>
+<body>
+    <div style="width:80%; margin:auto;">
+        <h3>@Model.Count Bình luận</h3>
+        @using (Html.BeginForm("CommentsAdd", "User", new { bl = bl}, FormMethod.Post, null))
+        {
+            <div>
+                <div class="row">
+                    <div class="center col-sm-5">
+                        <img align="left" src="~/Images/Products/@mh.ANH"
+                             style="height:150px; margin-right:5px;" />
+                        <div>
+                            <h5>
+                                @if (mh.TENMH.Length > 25)
+                                {
+                                    <b>@mh.TENMH.Substring(0, 25)...</b>
+                                }
+                                else
+                                {
+                                    <b>@mh.TENMH</b>
+                                }
+                            </h5>
+                            <h4 style="color:red;">@String.Format("{0:###,0}", mh.DONGIA)</h4>
+                            <input class="mua" type="button" value="XEM CHI TIẾT"
+                                   onclick="location.href='@Url.Action("Details", "User", new { id = mh.MAMH})'" />
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <textarea style="width:100%;"
+                                  maxlength="250"
+                                  placeholder="Mời bạn để lại bình luận... (Tối đa 250 ký tự)"></textarea>
+                    </div>
+                </div>
+                <div class="row" style="float:right; width:60%;">
+                    <div class="col-sm-6">
+                        <input class="mua-2" type="text" placeholder="Tên của bạn..." />
+                    </div>
+                    <div class="col-sm-6">
+                        <input class="mua" type="submit" value="THÊM BÌNH LUẬN" />
+                    </div>
+                </div>
+                <br />
+            </div>
+        }
+        <hr />
+        <div>
+            @foreach (var item in Model)
+            {
+                if (item.TENKH != null && !item.TENKH.Replace(" ", "").Equals(""))
+                {
+                    <div class="center" style="width:2em;
+                                                height:2em;
+                                                border:1px solid #808080;
+                                                background-color:#808080;
+                                                float:left;">
+                        <b>@item.TENKH.Substring(0, 1)</b>
+                    </div>
+
+                    <div class="v-center" style="
+                                                height:2em;">
+                        <h4>&nbsp;&nbsp;<b>@Html.DisplayFor(modelItem => item.TENKH)</b></h4>
+                    </div>
+                }
+                else
+                {
+                    <div class="center" style="width:2em;
+                                                height:2em;
+                                                border:1px solid #808080;
+                                                background-color:#808080;
+                                                float:left;">
+                        <b>A</b>
+                    </div>
+                    <div class="v-center" style="
+                                                height:2em;">
+                        <h4>&nbsp;&nbsp;<b>Ẩn danh</b></h4>
+                    </div>
+                }
+                @Html.DisplayFor(modelItem => item.NOIDUNG)<br />
+                <small style="color:#808080;">Ngày đăng - @String.Format("{0:dd/MM/yyy}", item.NGAYGUI)</small>
+                <br />
+                <hr />
+            }
+        </div>
+        @Html.PagedListPager(Model, page => Url.Action("Comments", new { id = Model.ElementAt(0).MAMH, page }))
+    </div>
+
+</body>
+</html>
