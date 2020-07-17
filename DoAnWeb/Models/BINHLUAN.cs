@@ -11,11 +11,15 @@ namespace DoAnWeb.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class BINHLUAN
     {
+        [StringLength(20)]
         public string MABL { get; set; }
         public string MAMH { get; set; }
+        [Required]
+        [StringLength(250)]
         public string NOIDUNG { get; set; }
         public System.DateTime NGAYGUI { get; set; }
         public string TENKH { get; set; }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -32,13 +33,13 @@ namespace DoAnWeb.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             MATHANG mATHANG = db.MATHANGs.Find(id);
+            Session["prod"] = mATHANG;
             if (mATHANG == null)
             {
                 return HttpNotFound();
             }
             return View(mATHANG);
         }
-
         public ActionResult Comments(string id, int? page)
         {
             if (id == null)
@@ -46,19 +47,31 @@ namespace DoAnWeb.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var commts = db.MATHANGs.Find(id).BINHLUANs.OrderByDescending(m => m.NGAYGUI);
-            ViewBag.MH = db.MATHANGs.Find(id);
             if (commts == null)
             {
                 return HttpNotFound();
             }
-            int pageSize = 15;
             int pageNumber = (page ?? 1);
-            return View(commts.ToPagedList(pageNumber, pageSize));
+            ViewBag.List = db.MATHANGs.Find(id).BINHLUANs.OrderByDescending(m => m.NGAYGUI)
+                .ToPagedList(1, 15);
+            return RedirectToAction("AddComment", new { id = id, page = page});
         }
-
-        public ActionResult AddComment()
+        public string NewCommentId()
         {
-            return View();
+            var idMax = db.BINHLUANs.ToList().Select(n => n.MABL).Max();
+            long newId = long.Parse(idMax) + 1;
+            return newId.ToString("000000000000");
+
+        }
+        [HttpGet]
+        public ActionResult AddComment(string id, int? page)
+        {
+            BINHLUAN bl = new BINHLUAN();
+            bl.MAMH = id;
+            int pageNumber = (page ?? 1);
+            ViewBag.List = db.MATHANGs.Find(id).BINHLUANs.OrderByDescending(m => m.NGAYGUI)
+                .ToPagedList(pageNumber, 15);
+            return View(bl);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -66,10 +79,14 @@ namespace DoAnWeb.Controllers
         {
             if (ModelState.IsValid)
             {
+                bl.MABL = NewCommentId();
+                bl.NGAYGUI = DateTime.Now;
                 db.BINHLUANs.Add(bl);
+
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
+            ViewBag.List = db.MATHANGs.Find(bl.MAMH).BINHLUANs.OrderByDescending(m => m.NGAYGUI)
+                .ToPagedList(1, 15);
             return View(bl);
         }
     }

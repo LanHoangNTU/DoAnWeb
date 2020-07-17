@@ -1,68 +1,161 @@
 ﻿@model DoAnWeb.Models.BINHLUAN
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "AddComment";
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
 }
 
-<h2>AddComment</h2>
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
+    <link rel="stylesheet" href="/Content/chart.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        .full-width {
+            width: 100%;
+        }
+
+        textarea {
+            max-width: 100%;
+            min-width: 100%;
+            min-height: 150px;
+            max-height: 350px;
+            border-radius: 10px;
+        }
+
+        div .bordered {
+            border-radius: 8px;
+        }
+
+        div .right-border {
+            border-bottom-right-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .v-center {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .mua {
+            width: 100%;
+            display: inline-block;
+            padding: 0.46em 1.6em;
+            border: 0.1em solid #000000;
+            margin: 0 0.2em 0.2em 0;
+            border-radius: 0.12em;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-family: 'Roboto',sans-serif;
+            font-weight: 300;
+            color: #000000;
+            text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+            background-color: #ff6a00;
+            text-align: center;
+            transition: all 0.15s;
+            border-radius: 5px;
+        }
+
+        .mua-2 {
+            width: 100%;
+            display: inline-block;
+            padding: 0.46em 1.6em;
+            border: 0.1em solid #000000;
+            margin: 0 0.2em 0.2em 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-family: 'Roboto',sans-serif;
+            font-weight: 300;
+            color: #000000;
+            border-radius: 5px;
+        }
+
+        .mua:hover {
+            text-shadow: 0 0 2em rgba(255,255,255,1);
+            color: #FFFFFF;
+            border-color: #FFFFFF;
+        }
+    </style>
+
     @Html.AntiForgeryToken()
-    
+<div style="width:85%; margin:auto;">
     <div class="form-horizontal">
-        <h4>BINHLUAN</h4>
+        @{ PagedList.IPagedList<DoAnWeb.Models.BINHLUAN> list = ViewBag.List;}
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.MABL, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.MABL, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.MABL, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="form-group col-lg-8">
+                <div class="col-md-12">
+                    @Html.TextAreaFor(model => model.NOIDUNG, htmlAttributes: new { @class = "form-control", @placeholder = "Mời bạn để lại bình luận (tối đa 250 ký tự)" })
+                    @Html.ValidationMessageFor(model => model.NOIDUNG, "", htmlAttributes: new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.MAMH, "MAMH", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("MAMH", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.MAMH, "", new { @class = "text-danger" })
+            <div class="form-group col-lg-4">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.TENKH, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tên của bạn (tối đa 20 ký tự)" } })
+                    @Html.ValidationMessageFor(model => model.TENKH, "", new { @class = "text-danger" })
+                    <br>
+                    <input style="width:100%;" type="submit" value="Gửi bình luận" class="btn btn-default btn-primary" />
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.NOIDUNG, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NOIDUNG, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NOIDUNG, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.NGAYGUI, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NGAYGUI, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NGAYGUI, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TENKH, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TENKH, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TENKH, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                </div>
             </div>
         </div>
     </div>
-}
+    <hr />
+    <div>
+        @foreach (var item in list)
+        {
+            if (item.TENKH != null && !item.TENKH.Replace(" ", "").Equals(""))
+            {
+                <div class="center" style="width:2em;
+                                                height:2em;
+                                                border:1px solid #808080;
+                                                background-color:#808080;
+                                                float:left;">
+                    <b>@item.TENKH.Substring(0, 1)</b>
+                </div>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+                <div class="v-center" style="
+                                                height:2em;">
+                    <h4>&nbsp;&nbsp;<b>@Html.DisplayFor(modelItem => item.TENKH)</b></h4>
+                </div>
+            }
+            else
+            {
+                <div class="center" style="width:2em;
+                                                height:2em;
+                                                border:1px solid #808080;
+                                                background-color:#808080;
+                                                float:left;">
+                    <b>A</b>
+                </div>
+                <div class="v-center" style="
+                                                height:2em;">
+                    <h4>&nbsp;&nbsp;<b>Ẩn danh</b></h4>
+                </div>
+            }
+            @Html.DisplayFor(modelItem => item.NOIDUNG)<br />
+            <small style="color:#808080;">Ngày đăng - @String.Format("{0:dd/MM/yyy}", item.NGAYGUI)</small>
+            <br />
+            <hr />
+        }
+    </div>
+    @Html.PagedListPager(list, page => Url.Action("Comments", new { id = Model.MAMH, page }))
 </div>
+    
+}

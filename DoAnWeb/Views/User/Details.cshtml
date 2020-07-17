@@ -235,7 +235,7 @@
                     <div>
                         <h3>@Model.BINHLUANs.Count Bình luận</h3>
                         <input class="mua" type="button" value="THÊM BÌNH LUẬN"
-                               onclick="location.href='@Url.Action("Comments", "User", new { id = Model.MAMH, page = 1})'"/>
+                               onclick="location.href='@Url.Action("AddComment", "User")'"/>
                     </div>
                     <hr />
                     <div>
@@ -284,7 +284,7 @@
                         <div style="width:100%; float:right; margin-top:10px;">
                             <input class="mua" style="display:block; width:30%; float:right;"
                                    type="button" value="XEM TẤT CẢ BÌNH LUẬN >" 
-                                   onclick="location.href='@Url.Action("Comments", "User", new { id = Model.MAMH, page = 1})'"/><br />
+                                   onclick="location.href='@Url.Action("AddComment", "User", new { id = Model.MAMH, page = 1})'"/><br />
                             <div style="width:100%;"><hr style="width:inherit;" /></div>
                         </div>
                     </div>

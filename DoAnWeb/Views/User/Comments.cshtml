@@ -88,7 +88,7 @@
 <body>
     <div style="width:80%; margin:auto;">
         <h3>@Model.Count Bình luận</h3>
-        @using (Html.BeginForm("CommentsAdd", "User", new { bl = bl}, FormMethod.Post, null))
+        @*@using (Html.BeginForm("CommentsAdd", "User", new { bl = bl}, FormMethod.Post, null))
         {
             <div>
                 <div class="row">
@@ -127,7 +127,7 @@
                 </div>
                 <br />
             </div>
-        }
+        }*@
         <hr />
         <div>
             @foreach (var item in Model)
