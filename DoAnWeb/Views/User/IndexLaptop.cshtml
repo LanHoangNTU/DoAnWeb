@@ -53,7 +53,7 @@
             var list = db.NHASANXUATs;
             <div class="row">
                 @foreach (var item in list)
-                {<a href="@Url.Action("IndexLaptop", "User", new { page = 1, id = item.MANSX})">
+                {<a href="@Url.Action("IndexLaptop", "User", new { page = 1, nsx = item.MANSX})">
                         @if (item.MANSX.Equals(active))
                         {
                             <div class="col-lg-1 center active">@item.TENNSX</div>

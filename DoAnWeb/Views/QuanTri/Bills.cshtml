@@ -1,0 +1,55 @@
+﻿@model IEnumerable<DoAnWeb.Models.GIOHANG>
+
+@{
+    ViewBag.Title = "Bills";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var grid = new WebGrid(Model, canPage: true, defaultSort: "MAGH", rowsPerPage: 15);
+}
+
+<style>
+    a:hover {
+        cursor: pointer;
+    }
+
+    .alternatingRowStyle {
+        background-color: #fff98c;
+    }
+</style>
+@using (Html.BeginForm("Bills", "QuanTri", FormMethod.Get))
+{
+    <div style="width: 30%; margin:auto; margin-top:50px;" class="row">
+        <div class="col-lg-4">
+            Mã
+        </div>
+        <div class="col-lg-8">
+            <input class="form-control" type="text" name="name" value="@ViewBag.NAME" />
+        </div>
+
+        <div class="col-lg-4">
+            <input class="btn btn-primary"
+                   type="submit" name="submit" value="Tìm kiếm" style="width:100%; display:inline;" />
+        </div>
+        <div class="col-lg-4">
+            <input class="btn btn-primary"
+                   type="button" name="Nhapmoi" value="Nhập mới" style="width:100%; display:inline;"
+                   onclick="location.href='@Url.Action("Bills", "QuanTri/Bills")'" />
+        </div>
+    </div>
+}
+<hr />
+<div id="gridContent">
+    @ViewBag.TB
+    @grid.GetHtml(
+        tableStyle: "table table-bordered table-hover",
+        footerStyle: "grid-footer",
+        fillEmptyRows: false,
+        mode: WebGridPagerModes.Numeric,
+        alternatingRowStyle: "alternatingRowStyle",
+          columns: new[] {
+grid.Column("MAGH","Mã", format:@<text><h5>@item.MAGH</h5></text>),
+grid.Column("HOTENKH","Tên khách hàng", format:@<text><h5>@item.HOTENKH</h5></text>),
+grid.Column("SDTKH","Số điện thoại", format:@<text><h5>@item.SDTKH</h5></text>),
+grid.Column("TONGTIEN","Tổng tiền", format:@<text> @item.TONGTIEN.ToString("#,##0")</text>),
+grid.Column("Xác nhận đã giao hàng", format:@<text><a href="@Url.Action("XacNhan", "QuanTri", new { id = item.MAGH})">Xác nhận</a></text>),
+})
+</div>

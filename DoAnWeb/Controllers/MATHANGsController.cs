@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DoAnWeb.Models;
+using Microsoft.Ajax.Utilities;
 using PagedList;
 
 namespace DoAnWeb.Controllers
@@ -68,7 +69,7 @@ namespace DoAnWeb.Controllers
             //Lấy thông tin từ input type=file có tên Avatar
             string postedFileName = System.IO.Path.GetFileName(imgNV.FileName);
             //Lưu hình đại diện về Server
-            var path = Server.MapPath("/Images/Products" + postedFileName);
+            var path = Server.MapPath("/Images/Products/" + postedFileName);
             imgNV.SaveAs(path);
             if (ModelState.IsValid)
             {
@@ -114,7 +115,7 @@ namespace DoAnWeb.Controllers
             string postedFileName = System.IO.Path.GetFileName(imgNV.FileName);
             //Lu hình đại diện về Server
             var path = Server.MapPath("/Images/Products/" + postedFileName);
-            if (mATHANG.ANH != null)
+            if (postedFileName != null && !postedFileName.IsNullOrWhiteSpace())
                 imgNV.SaveAs(path);
             else
                 postedFileName = db.MATHANGs.Find(mATHANG.MAMH).ANH;

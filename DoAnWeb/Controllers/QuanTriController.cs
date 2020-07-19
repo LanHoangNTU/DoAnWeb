@@ -1,7 +1,9 @@
 ﻿using DoAnWeb.Models;
+using Microsoft.Ajax.Utilities;
 using PagedList;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -175,6 +177,33 @@ namespace DoAnWeb.Controllers
             }
             
             return View(aNHMINHHOA);
+        }
+
+        [HttpGet]
+        public ActionResult Bills(int? page, string name = "")
+        {
+            ViewBag.Search = name;
+            var list = db.GIOHANGs.Where(m => !m.TRANGTHAI);
+            if (!name.IsNullOrWhiteSpace())
+            {
+                list = list.Where(m => m.MAGH.ToLower().Contains(name.ToLower()));
+            }
+
+            return View(list.ToList());
+        }
+
+        public ActionResult XacNhan(string id)
+        {
+
+            GIOHANG gh = db.GIOHANGs.Find(id);
+            gh.TRANGTHAI = true;
+
+            var list = db.CTGIOHANGs.Where(x => x.MAGH == id);
+
+            db.Entry(gh).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("Bills", "QuanTri");
         }
     }
 }
