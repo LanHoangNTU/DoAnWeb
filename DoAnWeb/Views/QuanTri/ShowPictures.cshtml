@@ -1,0 +1,22 @@
+﻿@model List<DoAnWeb.Models.ANHMINHHOA>
+@{
+    ViewBag.Title = "ShowPictures";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="row">
+    @{ var mamh = ViewBag.MAMH;}
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-4 center" style="border:2px solid green; border-radius: 5px; padding: 5px; height: 300px;">
+            <img style="width:100%;" src="~/Images/Carousel/@mamh/@item.TENANH" />
+        </div>
+    }
+    @if(Model.Count < 12)
+    {
+    <div class="col-lg-4 center" style="border:2px solid green; border-radius: 5px; padding: 5px; height: 300px;">
+            <a href="@Url.Action("AddPictures", "QuanTri", new { id = mamh})" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span></a>
+     </div>
+    }
+</div>

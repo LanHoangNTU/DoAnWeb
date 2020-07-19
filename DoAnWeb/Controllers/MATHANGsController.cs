@@ -48,6 +48,15 @@ namespace DoAnWeb.Controllers
             return View();
         }
 
+        public string GetNewId()
+        {
+            if (db.MATHANGs.Count() <= 0)
+            {
+                return "MH00000000";
+            }
+            var id = db.MATHANGs.Select(m => m.MAMH).Max();
+            return "MH" + (long.Parse(id.Substring(2, 8)) + 1).ToString("00000000");
+        }
         // POST: MATHANGs/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -55,11 +64,19 @@ namespace DoAnWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "MAMH,MALOAI,MANSX,TENMH,ANH,DONGIA,MAU,GIAMGIA,GHICHU,GIOITHIEUMH")] MATHANG mATHANG)
         {
+            var imgNV = Request.Files["Avatar"];
+            //Lấy thông tin từ input type=file có tên Avatar
+            string postedFileName = System.IO.Path.GetFileName(imgNV.FileName);
+            //Lưu hình đại diện về Server
+            var path = Server.MapPath("/Images/Products" + postedFileName);
+            imgNV.SaveAs(path);
             if (ModelState.IsValid)
             {
+                mATHANG.MAMH = GetNewId();
+                mATHANG.ANH = imgNV.FileName;
                 db.MATHANGs.Add(mATHANG);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "QuanTri");
             }
 
             ViewBag.MALOAI = new SelectList(db.LOAIMATHANGs, "MALOAI", "TENLOAI", mATHANG.MALOAI);
@@ -81,6 +98,7 @@ namespace DoAnWeb.Controllers
             }
             ViewBag.MALOAI = new SelectList(db.LOAIMATHANGs, "MALOAI", "TENLOAI", mATHANG.MALOAI);
             ViewBag.MANSX = new SelectList(db.NHASANXUATs, "MANSX", "TENNSX", mATHANG.MANSX);
+            ViewBag.ANH = mATHANG.ANH;
             return View(mATHANG);
         }
 
@@ -91,11 +109,22 @@ namespace DoAnWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "MAMH,MALOAI,MANSX,TENMH,ANH,DONGIA,MAU,GIAMGIA,GHICHU,GIOITHIEUMH")] MATHANG mATHANG)
         {
+            var imgNV = Request.Files["Avatar"];
+            var target = db.MATHANGs.Find(mATHANG.MAMH);
+            string postedFileName = System.IO.Path.GetFileName(imgNV.FileName);
+            //Lu hình đại diện về Server
+            var path = Server.MapPath("/Images/Products/" + postedFileName);
+            if (mATHANG.ANH != null)
+                imgNV.SaveAs(path);
+            else
+                postedFileName = db.MATHANGs.Find(mATHANG.MAMH).ANH;
             if (ModelState.IsValid)
             {
-                db.Entry(mATHANG).State = EntityState.Modified;
+                mATHANG.ANH = postedFileName;
+                db.Entry(target).CurrentValues.SetValues(mATHANG);
+                db.Entry(target).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "QuanTri");
             }
             ViewBag.MALOAI = new SelectList(db.LOAIMATHANGs, "MALOAI", "TENLOAI", mATHANG.MALOAI);
             ViewBag.MANSX = new SelectList(db.NHASANXUATs, "MANSX", "TENNSX", mATHANG.MANSX);

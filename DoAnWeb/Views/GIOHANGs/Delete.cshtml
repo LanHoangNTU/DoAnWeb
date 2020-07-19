@@ -1,0 +1,105 @@
+﻿@model DoAnWeb.Models.GIOHANG
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>GIOHANG</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TRANGTHAI)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TRANGTHAI)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NGAYXUAT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NGAYXUAT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TONGTIEN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TONGTIEN)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HOTENKH)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HOTENKH)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SDTKH)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SDTKH)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GIOITINHKH)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GIOITINHKH)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LOINHAN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LOINHAN)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DIACHI)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DIACHI)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PHUONGTHUCTHANHTOAN.TENPTTT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PHUONGTHUCTHANHTOAN.TENPTTT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PHUONGXA.MAQH)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PHUONGXA.MAQH)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

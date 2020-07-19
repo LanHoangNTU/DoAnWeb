@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "Select_1";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    SelectList list = ViewBag.MATP;
+}
+
+    <div style="width: 50%; margin: auto;">
+        <h2>
+            Chọn thành phố
+        </h2>
+        <form name="q1" class="row container-ssa" action="/User/Select_2s" method="post">
+            <select name="id" class="form-control col-lg-8">
+                @foreach (var item in list)
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+            </select>
+            <div class="col-lg-4"><button id="reg" class="btn btn-success">CHỌN</button></div>
+        </form>
+    </div>

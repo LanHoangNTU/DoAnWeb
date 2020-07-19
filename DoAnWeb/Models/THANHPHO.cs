@@ -17,15 +17,12 @@ namespace DoAnWeb.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public THANHPHO()
         {
-            this.GIOHANGs = new HashSet<GIOHANG>();
             this.QUANHUYENs = new HashSet<QUANHUYEN>();
         }
     
         public string MATP { get; set; }
         public string TENTP { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GIOHANG> GIOHANGs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QUANHUYEN> QUANHUYENs { get; set; }
     }

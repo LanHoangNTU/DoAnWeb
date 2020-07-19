@@ -1,0 +1,37 @@
+﻿@model DoAnWeb.Models.ANHMINHHOA
+
+@{
+    ViewBag.Title = "AddPictures";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>AddPictures</h2>
+
+@using (Html.BeginForm("AddPictures", "QuanTri", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    var mh = ViewBag.MAMH as DoAnWeb.Models.MATHANG;
+    <div class="form-horizontal">
+        <h4>ANHMINHHOA</h4>
+        <hr />
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TENANH, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" style="height:30px;" name="Avatar" accept="image/*" required />
+                @Html.ValidationMessageFor(model => model.TENANH, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @Html.HiddenFor(model => model.MAMH, new { Value = mh.MAMH})
+        @Html.HiddenFor(model => model.MATHANG, new { Value = mh})
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

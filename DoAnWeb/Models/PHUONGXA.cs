@@ -14,10 +14,18 @@ namespace DoAnWeb.Models
     
     public partial class PHUONGXA
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public PHUONGXA()
+        {
+            this.GIOHANGs = new HashSet<GIOHANG>();
+        }
+    
         public string MAPX { get; set; }
         public string MAQH { get; set; }
         public string TENPX { get; set; }
     
         public virtual QUANHUYEN QUANHUYEN { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GIOHANG> GIOHANGs { get; set; }
     }
 }

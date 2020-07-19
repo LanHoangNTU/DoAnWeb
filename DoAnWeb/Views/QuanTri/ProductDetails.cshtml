@@ -1,0 +1,56 @@
+﻿@model DoAnWeb.Models.MATHANG
+
+@{
+    ViewBag.Title = "ProductDetails";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+</style>
+<div class="row" style="width:80%; margin:auto;">
+    <h4>@Html.DisplayFor(model => model.TENMH)</h4>
+    <hr />
+    <div class="col-lg-4">
+        <img style="width:100%;" src="~/Images/Products/@Model.ANH" />
+    </div>
+    <div class="col-lg-8">
+        <h3 style="color: red;">@Model.DONGIA.ToString("###,0 VNĐ")</h3>
+        <h3>Màu: <b>@Model.MAU</b></h3>
+        <h3>Giảm giá: <b style="color:red;">@Model.GIAMGIA.ToString("0.0%")</b></h3>
+    </div>
+</div>
+<div class="row" style="width:80%; margin:auto;">
+    <hr />
+    <div class="col-lg-4" style="border: 1px solid black; border-radius:5px;">
+        <h3>Ghi chú</h3>
+        <hr />
+        <h4>@Model.GHICHU</h4>
+    </div>
+    <div class="col-lg-4" style="border: 1px solid black; border-radius:5px;">
+        <h3>Tên loại</h3>
+        <hr />
+        <h4>@Model.LOAIMATHANG.TENLOAI</h4>
+    </div>
+    <div class="col-lg-4" style="border: 1px solid black; border-radius:5px;">
+        <h3>Nhà sản xuất</h3>
+        <hr />
+        <h4>@Model.NHASANXUAT.TENNSX</h4>
+    </div>
+</div>
+<div class="row" style="width:80%; margin:auto;">
+    <hr />
+    <p>@Model.GIOITHIEUMH</p>
+</div>
+<hr style="width:10%;"/>
+<div class="btn-group center" style="width:80%; margin:auto;">
+    @Html.ActionLink("Sửa", "Edit", "MATHANGs", new { id = Model.MAMH }, new { Class = "btn btn-warning" })
+    @Html.ActionLink("Trờ về", "Index", null, new { Class = "btn btn-success" })
+    @Html.ActionLink("Xóa", "DeleteProduct", new { id = Model.MAMH }, new { onclick = "return confirm('Bạn có muốn xóa mặt hàng này?');", Class = "btn btn-danger" })
+    @Html.ActionLink("Xem thông số kỹ thuật", "TechInfo", new { id = Model.MAMH}, new { Class = "btn btn-primary" })
+    @Html.ActionLink("Ảnh minh họa", "ShowPictures", "QuanTri", new { id = Model.MAMH}, new { Class = "btn btn-primary" })
+</div>

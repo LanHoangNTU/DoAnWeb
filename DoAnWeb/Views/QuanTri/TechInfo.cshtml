@@ -1,0 +1,26 @@
+﻿@model List<DoAnWeb.Models.THONGSOKYTHUAT>
+@{
+    ViewBag.Title = "TechInfo";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    var grid = new WebGrid(Model, canPage: true, defaultSort: "MATS", rowsPerPage: 15);
+}
+
+<div id="gridContent" style="width: 50%; margin:auto;">
+    <div class="btn-group">
+        @Html.ActionLink("THÊM MỚI", "AddTech", "QuanTri", new { id = ViewBag.MAMH as string }, new { Class = "btn btn-success" })
+        @Html.ActionLink("TRỞ VỀ", "ProductDetails", "QuanTri", new { id = ViewBag.MAMH as string }, new { Class = "btn btn-success" })
+    </div>
+    @ViewBag.TB
+    @grid.GetHtml(
+        tableStyle: "table table-bordered table-hover",
+        footerStyle: "grid-footer",
+        fillEmptyRows: true,
+        mode: WebGridPagerModes.Numeric,
+        alternatingRowStyle: "alternatingRowStyle",
+          columns: new[] {
+grid.Column("TIEUDE","Tiêu đề"),
+grid.Column("NOIDUNG","Nội dung"),
+grid.Column(format: (item) => Html.ActionLink("Cập nhật", "EditTech","QuanTri", new { id = item.MATS }, new{ Class = "btn btn-warning"})),
+grid.Column(format: (item) => Html.ActionLink("Xóa", "DeleteTech","QuanTri", new { id = item.MATS }, new{ Class = "btn btn-danger", onclick = "return confirm('Bạn có muốn xóa thông số này?');"})),
+})
+</div>

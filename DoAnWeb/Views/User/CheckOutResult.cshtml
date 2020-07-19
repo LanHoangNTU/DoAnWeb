@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "CheckOutResult";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    bool success = ViewBag.SC;
+}
+
+
+<div align="center">
+    @if (success)
+    {
+        <h1>Thanh toán thành công!</h1>
+        <h1>Nhân viên giao hàng sẽ liên lạc vào số điện thoại của quý khách để xác thực</h1>
+    }
+    else
+    {
+        <h1>Giao dịch không thành công...</h1>
+    }
+
+    <span><a href="@Url.Action("IndexLaptop", "User")" role="button" class="btn btn-success">Trờ về trang chủ</a></span>
+</div>

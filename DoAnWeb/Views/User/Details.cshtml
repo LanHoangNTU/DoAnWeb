@@ -81,7 +81,8 @@
                     <h5 style="margin-left:10px;"><b>Ghi chú:</b></h5>
                     <h5 style="margin-left:10px;">@Html.DisplayFor(model => model.GHICHU)</h5>
                 </div>
-                <input class="mua" style="display:block; font-size: 2em;" type="button" value="MUA NGAY" />
+                <input class="mua" style="display:block; font-size: 2em;" type="button" value="MUA NGAY" 
+                      onclick="location.href='@Url.Action("AddToCart", "User", new { mh = Model.MAMH})'" />
             </div>
             <div style="display:block;"></div>
 
@@ -235,7 +236,7 @@
                     <div>
                         <h3>@Model.BINHLUANs.Count Bình luận</h3>
                         <input class="mua" type="button" value="THÊM BÌNH LUẬN"
-                               onclick="location.href='@Url.Action("AddComment", "User")'"/>
+                               onclick="location.href='@Url.Action("AddComment", "User", new { id = Model.MAMH, page = 1})'"/>
                     </div>
                     <hr />
                     <div>

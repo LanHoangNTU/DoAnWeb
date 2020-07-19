@@ -25,12 +25,12 @@
         <AssociationConnector Association="MTPKModel.FK__CTGIOHANG__MAMH__3D5E1FD2" ManuallyRouted="false" />
         <AssociationConnector Association="MTPKModel.FK__DANHGIA__MAMH__45F365D3" ManuallyRouted="false" />
         <AssociationConnector Association="MTPKModel.FK__GIOHANG__MAPTTT__398D8EEE" ManuallyRouted="false" />
-        <AssociationConnector Association="MTPKModel.FK__GIOHANG__MATP__38996AB5" ManuallyRouted="false" />
         <AssociationConnector Association="MTPKModel.FK__MATHANG__MALOAI__286302EC" ManuallyRouted="false" />
         <AssociationConnector Association="MTPKModel.FK__MATHANG__MANSX__29572725" ManuallyRouted="false" />
         <AssociationConnector Association="MTPKModel.FK__THONGSOKYT__MAMH__2C3393D0" ManuallyRouted="false" />
         <AssociationConnector Association="MTPKModel.FK__PHUONGXA__MAQH__33D4B598" ManuallyRouted="false" />
         <AssociationConnector Association="MTPKModel.FK__QUANHUYEN__MATP__30F848ED" ManuallyRouted="false" />
+        <AssociationConnector Association="MTPKModel.FK__GIOHANG__MATP__38996AB51" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

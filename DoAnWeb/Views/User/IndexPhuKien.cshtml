@@ -2,7 +2,7 @@
 @using PagedList.Mvc;
 
 @{
-    ViewBag.Title = "IndexLaptop";
+    ViewBag.Title = "IndexPhuKien";
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
 }
 
@@ -21,6 +21,7 @@
         a div:hover div {
             color: dodgerblue;
         }
+
         a .active {
             border: 1px solid #ff6a00;
             height: 50px;
@@ -30,37 +31,58 @@
             border: 1px solid #cbcbcb;
             height: 50px;
         }
+
+        .normal:hover {
+            border-color: #ff6a00;
+            cursor:pointer;
+        }
+
+        input {
+            padding: 4px 10px;
+            border: 1px solid #1c87c9;
+            font-size: 16px;
+        }
+
+        .search {
+            width: 75%;
+        }
+
+        .submit {
+            width: 100px;
+            background-color: #1c87c9;
+            color: #ffffff;
+        }
+        .om {
+            width: 400px;
+            margin: auto;
+            margin-top: 250px;
+        }
     </style>
 </head>
 <body>
-    @using (Html.BeginForm("IndexLaptop", "User", FormMethod.Get))
+    <br />
+    @using (Html.BeginForm("IndexPhukien", "User", FormMethod.Get))
     {
-        <div style="width: 30%; margin:auto; margin-top:50px;" class="row">
-            <div class="col-lg-8">
-                @Html.TextBox("SearchString", null, htmlAttributes: new { Class = "form-control", placeholder = "Tìm kiếm..." })
-            </div>
-            <div class="col-lg-4">
-                <input class="btn btn-primary"
-                       type="submit" name="Nhapmoi" value="Tìm kiếm" style="width:100%; display:inline;" />
-            </div>
+        <div style="width: 80%; margin:auto;" class="om">
+            @Html.TextBox("SearchString", null, htmlAttributes: new { Class = "search", placeholder = "Tìm kiếm..." })
+            <input type="submit" name="submit" class="submit" value="Tìm kiếm">
         </div>
     }
-    <div style="width:80%; margin:auto;">
-        <hr />
+    <div style="width:80%; margin:auto; margin-top: 20px;">
         @{
-            string active = ViewBag.NSX;
+            string active = ViewBag.MALOAI;
             var db = new DoAnWeb.Models.MTPKEntities1();
-            var list = db.NHASANXUATs;
+            var list = db.LOAIMATHANGs;
             <div class="row">
-                @foreach (var item in list)
-                {<a href="@Url.Action("IndexLaptop", "User", new { page = 1, id = item.MANSX})">
-                        @if (item.MANSX.Equals(active))
+                @foreach (var item in list.Where(m => !m.MALOAI.Equals("LOAI000001")))
+                {<a href="@Url.Action("IndexPhuKien", "User", new { page = 1, id = item.MALOAI})">
+                        @if (item.MALOAI.Equals(active))
                         {
-                            <div class="col-lg-1 center active">@item.TENNSX</div>
+                            <div class="col-lg-1 center active">@item.TENLOAI</div>
                         }
                         else
                         {
-                            <div class="col-lg-1 center normal">@item.TENNSX</div>
+                            <div class="col-lg-1 center normal">@item.TENLOAI</div>
                         }
                     </a>}
             </div>
@@ -70,11 +92,9 @@
             @foreach (var item in Model)
             {
                 <a style="text-decoration:none; color: black;" href="@Url.Action("Details", "User", new { id = item.MAMH})">
-                    <div class="col-lg-2" style="
-            width: 20%;
+                    <div class="col-lg-3" style="
             border: solid 2px #808080;
             padding-top: 1em;
-            height: 350px;
             border-radius: 2px;">
                         <img style="width: 100%;" src="/Images/Products/@Html.DisplayFor(modelItem => item.ANH)" />
                         <hr />
@@ -90,7 +110,7 @@
 
         </div>
 
-        <div align="center">@Html.PagedListPager(Model, page => Url.Action("IndexLaptop", new { page, searchString = ViewBag.Search }))</div>
+        <div align="center">@Html.PagedListPager(Model, page => Url.Action("IndexPhuKien", new { page, searchString = ViewBag.Search }))</div>
     </div>
 </body>
 </html>

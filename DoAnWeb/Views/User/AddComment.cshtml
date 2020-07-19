@@ -1,13 +1,15 @@
-﻿@model DoAnWeb.Models.BINHLUAN
+﻿
+@model DoAnWeb.Models.BINHLUAN
 @using PagedList.Mvc;
 
 @{
     ViewBag.Title = "AddComment";
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    Html.EnableClientValidation(true);
 }
-
 @using (Html.BeginForm())
 {
+    @Html.ValidationSummary(true);
     <link rel="stylesheet" href="/Content/chart.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -88,74 +90,96 @@
     </style>
 
     @Html.AntiForgeryToken()
-<div style="width:85%; margin:auto;">
-    <div class="form-horizontal">
-        @{ PagedList.IPagedList<DoAnWeb.Models.BINHLUAN> list = ViewBag.List;}
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="row">
-            <div class="form-group col-lg-8">
-                <div class="col-md-12">
-                    @Html.TextAreaFor(model => model.NOIDUNG, htmlAttributes: new { @class = "form-control", @placeholder = "Mời bạn để lại bình luận (tối đa 250 ký tự)" })
-                    @Html.ValidationMessageFor(model => model.NOIDUNG, "", htmlAttributes: new { @class = "text-danger" })
+    <div style="width:85%; margin:auto;">
+        <div class="form-horizontal">
+            @{ PagedList.IPagedList<DoAnWeb.Models.BINHLUAN> list = ViewBag.List;
+                var mh = ViewBag.MH as DoAnWeb.Models.MATHANG;}
+            <hr />
+            <div class="row">
+                <div class="center col-sm-4">
+                    <img align="left" src="~/Images/Products/@mh.ANH"
+                         style="height:150px; margin-right:5px;" />
+                    <div>
+                        <h5>
+                            @if (mh.TENMH.Length > 25)
+                            {
+                                <b>@mh.TENMH.Substring(0, 25)...</b>
+                            }
+                            else
+                            {
+                                <b>@mh.TENMH</b>
+                            }
+                        </h5>
+                        <h4 style="color:red;">@String.Format("{0:###,0}", mh.DONGIA)</h4>
+                        <input class="mua" type="button" value="XEM CHI TIẾT"
+                               onclick="location.href='@Url.Action("Details", "User", new { id = mh.MAMH})'" />
+                    </div>
                 </div>
-            </div>
-
-            <div class="form-group col-lg-4">
-                <div class="col-md-12">
-                    @Html.EditorFor(model => model.TENKH, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tên của bạn (tối đa 20 ký tự)" } })
-                    @Html.ValidationMessageFor(model => model.TENKH, "", new { @class = "text-danger" })
-                    <br>
-                    <input style="width:100%;" type="submit" value="Gửi bình luận" class="btn btn-default btn-primary" />
+                <div class="form-group col-lg-8">
+                    <div class="col-md-12">
+                        @Html.TextAreaFor(model => model.NOIDUNG, htmlAttributes: new { @class = "form-control", @placeholder = "Mời bạn để lại bình luận (tối đa 250 ký tự)" } )
+                        @Html.ValidationMessageFor(model => model.NOIDUNG, "", htmlAttributes: new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
+                <div class="col-lg-6"></div>
+                <div class="form-group col-lg-6">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.TENKH, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tên của bạn (tối đa 20 ký tự)" } })
+                        @Html.ValidationMessageFor(model => model.TENKH, "", new { @class = "text-danger" })
+                        <br>
+                        <input style="width:100%;" type="submit" value="Gửi bình luận" class="btn btn-default btn-primary" />
+                        @Html.HiddenFor(model => model.MAMH, new { Value = mh.MAMH })
+                        @Html.HiddenFor(model => model.MATHANG, new { Value = mh })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <hr />
-    <div>
-        @foreach (var item in list)
-        {
-            if (item.TENKH != null && !item.TENKH.Replace(" ", "").Equals(""))
+        <hr />
+        <div>
+            @foreach (var item in list)
             {
-                <div class="center" style="width:2em;
+                if (item.TENKH != null && !item.TENKH.Replace(" ", "").Equals(""))
+                {
+                    <div class="center" style="width:2em;
                                                 height:2em;
                                                 border:1px solid #808080;
                                                 background-color:#808080;
                                                 float:left;">
-                    <b>@item.TENKH.Substring(0, 1)</b>
-                </div>
+                        <b>@item.TENKH.Substring(0, 1)</b>
+                    </div>
 
-                <div class="v-center" style="
+                    <div class="v-center" style="
                                                 height:2em;">
-                    <h4>&nbsp;&nbsp;<b>@Html.DisplayFor(modelItem => item.TENKH)</b></h4>
-                </div>
-            }
-            else
-            {
-                <div class="center" style="width:2em;
+                        <h4>&nbsp;&nbsp;<b>@Html.DisplayFor(modelItem => item.TENKH)</b></h4>
+                    </div>
+                }
+                else
+                {
+                    <div class="center" style="width:2em;
                                                 height:2em;
                                                 border:1px solid #808080;
                                                 background-color:#808080;
                                                 float:left;">
-                    <b>A</b>
-                </div>
-                <div class="v-center" style="
+                        <b>A</b>
+                    </div>
+                    <div class="v-center" style="
                                                 height:2em;">
-                    <h4>&nbsp;&nbsp;<b>Ẩn danh</b></h4>
-                </div>
+                        <h4>&nbsp;&nbsp;<b>Ẩn danh</b></h4>
+                    </div>
+                }
+                @Html.DisplayFor(modelItem => item.NOIDUNG)<br />
+                <small style="color:#808080;">Ngày đăng - @String.Format("{0:dd/MM/yyy}", item.NGAYGUI)</small>
+                <br />
+                <hr />
             }
-            @Html.DisplayFor(modelItem => item.NOIDUNG)<br />
-            <small style="color:#808080;">Ngày đăng - @String.Format("{0:dd/MM/yyy}", item.NGAYGUI)</small>
-            <br />
-            <hr />
-        }
+        </div>
+        @Html.PagedListPager(list, page => Url.Action("Comments", new { id = Model.MAMH, page }))
     </div>
-    @Html.PagedListPager(list, page => Url.Action("Comments", new { id = Model.MAMH, page }))
-</div>
-    
+
 }

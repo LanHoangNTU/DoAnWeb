@@ -7,10 +7,19 @@ namespace DoAnWeb.Models
 {
     public class CTMH
     {
-        public MATHANG Mh { get; set; }
-        public List<THONGSOKYTHUAT> tskts { get; set; }
-        public List<BINHLUAN> BLs { get; set; }
-        public List<DANHGIA> DGs { get; set; }
-        public List<ANHMINHHOA> AMHs { get; set; }
+        public CTMH()
+        {
+        }
+
+        public CTMH(string mAMH, byte sOLUONG, int tHANHTIEN)
+        {
+            MAMH = mAMH;
+            SOLUONG = sOLUONG;
+            THANHTIEN = tHANHTIEN;
+        }
+
+        public string MAMH { get; set; }
+        public byte SOLUONG { get; set; }
+        public int THANHTIEN { get; set; }
     }
 }

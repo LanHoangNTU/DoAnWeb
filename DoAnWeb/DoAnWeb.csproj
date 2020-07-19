@@ -137,6 +137,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\QuanTriVien\Controllers\HomeController.cs" />
     <Compile Include="Areas\QuanTriVien\QuanTriVienAreaRegistration.cs" />
+    <Compile Include="Controllers\GIOHANGsController.cs" />
+    <Compile Include="Controllers\QuanTriController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MATHANGsController.cs" />
@@ -275,6 +277,25 @@
     <Content Include="Views\User\Comments.cshtml" />
     <Content Include="Views\User\IndexLaptop.cshtml" />
     <Content Include="Views\User\AddComment.cshtml" />
+    <Content Include="Views\User\CTGH.cshtml" />
+    <Content Include="Views\User\ConfirmBuy.cshtml" />
+    <Content Include="Views\User\ConfirmBuy1.cshtml" />
+    <Content Include="Views\GIOHANGs\Create.cshtml" />
+    <Content Include="Views\GIOHANGs\Delete.cshtml" />
+    <Content Include="Views\GIOHANGs\Details.cshtml" />
+    <Content Include="Views\GIOHANGs\Edit.cshtml" />
+    <Content Include="Views\GIOHANGs\Index.cshtml" />
+    <Content Include="Views\User\Select_1.cshtml" />
+    <Content Include="Views\User\Select_2s.cshtml" />
+    <Content Include="Views\User\CheckOutResult.cshtml" />
+    <Content Include="Views\QuanTri\LoginForm.cshtml" />
+    <Content Include="Views\QuanTri\Index.cshtml" />
+    <Content Include="Views\QuanTri\ProductDetails.cshtml" />
+    <Content Include="Views\QuanTri\TechInfo.cshtml" />
+    <Content Include="Views\QuanTri\AddTech.cshtml" />
+    <Content Include="Views\User\IndexPhuKien.cshtml" />
+    <Content Include="Views\QuanTri\ShowPictures.cshtml" />
+    <Content Include="Views\QuanTri\AddPictures.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -221,13 +221,13 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__GIOHANG__MATP__38996AB5">
-          <End Role="THANHPHO" Type="Self.THANHPHO" Multiplicity="1">
+          <End Role="PHUONGXA" Type="Self.PHUONGXA" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
           <End Role="GIOHANG" Type="Self.GIOHANG" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="THANHPHO">
-              <PropertyRef Name="MATP" />
+            <Principal Role="PHUONGXA">
+              <PropertyRef Name="MAPX" />
             </Principal>
             <Dependent Role="GIOHANG">
               <PropertyRef Name="MATP" />
@@ -345,7 +345,7 @@
             <End Role="GIOHANG" EntitySet="GIOHANG" />
           </AssociationSet>
           <AssociationSet Name="FK__GIOHANG__MATP__38996AB5" Association="Self.FK__GIOHANG__MATP__38996AB5">
-            <End Role="THANHPHO" EntitySet="THANHPHO" />
+            <End Role="PHUONGXA" EntitySet="PHUONGXA" />
             <End Role="GIOHANG" EntitySet="GIOHANG" />
           </AssociationSet>
           <AssociationSet Name="FK__MATHANG__MALOAI__286302EC" Association="Self.FK__MATHANG__MALOAI__286302EC">
@@ -434,7 +434,7 @@
           <Property Name="DIACHI" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="CTGIOHANGs" Relationship="Self.FK__CTGIOHANG__MAGH__3C69FB99" FromRole="GIOHANG" ToRole="CTGIOHANG" />
           <NavigationProperty Name="PHUONGTHUCTHANHTOAN" Relationship="Self.FK__GIOHANG__MAPTTT__398D8EEE" FromRole="GIOHANG" ToRole="PHUONGTHUCTHANHTOAN" />
-          <NavigationProperty Name="THANHPHO" Relationship="Self.FK__GIOHANG__MATP__38996AB5" FromRole="GIOHANG" ToRole="THANHPHO" />
+          <NavigationProperty Name="PHUONGXA" Relationship="MTPKModel.FK__GIOHANG__MATP__38996AB51" FromRole="GIOHANG" ToRole="PHUONGXA" />
         </EntityType>
         <EntityType Name="LOAIMATHANG">
           <Key>
@@ -491,6 +491,7 @@
           <Property Name="MAQH" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="TENPX" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="QUANHUYEN" Relationship="Self.FK__PHUONGXA__MAQH__33D4B598" FromRole="PHUONGXA" ToRole="QUANHUYEN" />
+          <NavigationProperty Name="GIOHANGs" Relationship="MTPKModel.FK__GIOHANG__MATP__38996AB51" FromRole="PHUONGXA" ToRole="GIOHANG" />
         </EntityType>
         <EntityType Name="QUANHUYEN">
           <Key>
@@ -515,7 +516,6 @@
           </Key>
           <Property Name="MATP" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="TENTP" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="GIOHANGs" Relationship="Self.FK__GIOHANG__MATP__38996AB5" FromRole="THANHPHO" ToRole="GIOHANG" />
           <NavigationProperty Name="QUANHUYENs" Relationship="Self.FK__QUANHUYEN__MATP__30F848ED" FromRole="THANHPHO" ToRole="QUANHUYEN" />
         </EntityType>
         <EntityType Name="THONGSOKYTHUAT">
@@ -609,20 +609,6 @@
             </Principal>
             <Dependent Role="GIOHANG">
               <PropertyRef Name="MAPTTT" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__GIOHANG__MATP__38996AB5">
-          <End Role="THANHPHO" Type="Self.THANHPHO" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="GIOHANG" Type="Self.GIOHANG" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="THANHPHO">
-              <PropertyRef Name="MATP" />
-            </Principal>
-            <Dependent Role="GIOHANG">
-              <PropertyRef Name="MATP" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -735,10 +721,6 @@
             <End Role="PHUONGTHUCTHANHTOAN" EntitySet="PHUONGTHUCTHANHTOANs" />
             <End Role="GIOHANG" EntitySet="GIOHANGs" />
           </AssociationSet>
-          <AssociationSet Name="FK__GIOHANG__MATP__38996AB5" Association="Self.FK__GIOHANG__MATP__38996AB5">
-            <End Role="THANHPHO" EntitySet="THANHPHOes" />
-            <End Role="GIOHANG" EntitySet="GIOHANGs" />
-          </AssociationSet>
           <AssociationSet Name="FK__MATHANG__MALOAI__286302EC" Association="Self.FK__MATHANG__MALOAI__286302EC">
             <End Role="LOAIMATHANG" EntitySet="LOAIMATHANGs" />
             <End Role="MATHANG" EntitySet="MATHANGs" />
@@ -760,6 +742,10 @@
             <End Role="QUANHUYEN" EntitySet="QUANHUYENs" />
           </AssociationSet>
           <FunctionImport Name="xem_MH" ReturnType="Collection(MTPKModel.xem_MH_Result)" />
+          <AssociationSet Name="FK__GIOHANG__MATP__38996AB51" Association="MTPKModel.FK__GIOHANG__MATP__38996AB51">
+            <End Role="PHUONGXA" EntitySet="PHUONGXAs" />
+            <End Role="GIOHANG" EntitySet="GIOHANGs" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="xem_MH_Result">
           <Property Type="String" Name="MAMH" Nullable="false" MaxLength="10" />
@@ -773,6 +759,20 @@
           <Property Type="String" Name="GHICHU" Nullable="false" MaxLength="250" />
           <Property Type="String" Name="GIOITHIEUMH" Nullable="false" />
         </ComplexType>
+        <Association Name="FK__GIOHANG__MATP__38996AB51">
+          <End Type="MTPKModel.PHUONGXA" Role="PHUONGXA" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MTPKModel.GIOHANG" Role="GIOHANG" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PHUONGXA">
+              <PropertyRef Name="MAPX" />
+            </Principal>
+            <Dependent Role="GIOHANG">
+              <PropertyRef Name="MATP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
