@@ -135,8 +135,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Areas\QuanTriVien\Controllers\HomeController.cs" />
-    <Compile Include="Areas\QuanTriVien\QuanTriVienAreaRegistration.cs" />
     <Compile Include="Controllers\GIOHANGsController.cs" />
     <Compile Include="Controllers\QuanTriController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -232,8 +230,6 @@
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Areas\QuanTriVien\Views\web.config" />
-    <Content Include="Areas\QuanTriVien\Views\Home\Index.cshtml" />
     <EntityDeploy Include="Models\MTPK.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>MTPK.Designer.cs</LastGenOutput>
@@ -300,8 +296,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\QuanTriVien\Data\" />
-    <Folder Include="Areas\QuanTriVien\Views\Shared\" />
     <Folder Include="Images\Carousel\MH00000001\" />
     <Folder Include="Images\Products\" />
   </ItemGroup>

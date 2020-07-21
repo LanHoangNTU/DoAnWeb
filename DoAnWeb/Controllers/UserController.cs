@@ -161,7 +161,7 @@ namespace DoAnWeb.Controllers
                 ctx.MAMH = sp.MAMH;
                 ctx.MATHANG = sp;
                 ctx.SOLUONG = 1;
-                ctx.THANHTIEN = sp.DONGIA;
+                ctx.THANHTIEN = (int)(sp.DONGIA - sp.DONGIA * sp.GIAMGIA / 100);
 
                 giohang.Add(ctx);
             }
@@ -181,7 +181,7 @@ namespace DoAnWeb.Controllers
                     ct.SOLUONG -= 1;
                 }
 
-                ct.THANHTIEN = ct.SOLUONG * sp.DONGIA;
+                ct.THANHTIEN = ct.SOLUONG * (int)(sp.DONGIA - sp.DONGIA * sp.GIAMGIA / 100);
             }
 
             return RedirectToAction("CTGH");

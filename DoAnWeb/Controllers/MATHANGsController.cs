@@ -77,7 +77,7 @@ namespace DoAnWeb.Controllers
                 mATHANG.ANH = imgNV.FileName;
                 db.MATHANGs.Add(mATHANG);
                 db.SaveChanges();
-                return RedirectToAction("Index", "QuanTri");
+                return RedirectToAction("ProductDetails", "QuanTri", new { id = mATHANG.MAMH});
             }
 
             ViewBag.MALOAI = new SelectList(db.LOAIMATHANGs, "MALOAI", "TENLOAI", mATHANG.MALOAI);

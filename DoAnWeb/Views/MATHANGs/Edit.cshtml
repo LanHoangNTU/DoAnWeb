@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 @using (Html.BeginForm("Edit", "MATHANGs", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -68,7 +68,12 @@
         </style>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
+        <div class="form-group">
+            <label for="src" class="photo btn btn-primary">Chọn ảnh...</label><br />
+            <input id="src" class="upload-photo" type="file" style="height:30px;" name="Avatar" accept="image/*" />
+            <img id="target"  src="~/Images/Products/@Model.ANH" style="border: 2px solid #337ab7; border-radius:5px; height: 150px; width: 225px;" /><br />
+            @Html.ValidationMessageFor(model => model.ANH, "", new { @class = "text-danger" })
+        </div>
         <div class="form-group row">
             @Html.HiddenFor(model => model.MAMH)
             <div class="col-lg-6">
@@ -103,21 +108,17 @@
                 @Html.ValidationMessageFor(model => model.GIAMGIA, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <hr />
         <div class="form-group">
+            @Html.LabelFor(model => model.GHICHU, "Ghi chú", htmlAttributes: new { Class = "form-control" })
             @Html.TextAreaFor(model => model.GHICHU, htmlAttributes: new { Class = "form-control", placeholder = "Ghi chú..." })
             @Html.ValidationMessageFor(model => model.GHICHU, "", new { @class = "text-danger" })
         </div>
-
+        <hr />
         <div class="form-group">
+            @Html.LabelFor(model => model.GIOITHIEUMH, "Giới thiệu thêm về mặt hàng", htmlAttributes: new { Class = "form-control" })
             @Html.TextAreaFor(model => model.GIOITHIEUMH, htmlAttributes: new { Class = "form-control", placeholder = "Giới thiệu... " })
             @Html.ValidationMessageFor(model => model.GIOITHIEUMH, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ANH, "Ảnh đại diện: ", htmlAttributes: new { @class = "control-label col-md-2" })
-            <input type="file" style="height:30px;" name="Avatar" accept="image/*" value="@ViewBag.ANH"/>
-            @Html.ValidationMessageFor(model => model.ANH, "", new { @class = "text-danger" })
         </div>
 
         <div class="form-group">
@@ -127,8 +128,20 @@
         </div>
     </div>
 }
+<script>
+    function showImg(src, target) {
+        var fr = new FileReader();
+        fr.onload = function (e) { target.src = this.result; };
+        src.addEventListener("change", function () {
+            fr.readAsDataURL(src.files[0]);
+        });
+    }
 
+    var src = document.getElementById("src");
+    var target = document.getElementById("target");
+    showImg(src, target);
+</script>
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Trở về", "ProductDetails", "QuanTri", new { id = Model.MAMH}, new { @class = "btn btn-danger" })
 </div>
 

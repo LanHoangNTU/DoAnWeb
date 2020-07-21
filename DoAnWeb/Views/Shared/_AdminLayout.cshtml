@@ -9,14 +9,28 @@
     <link rel="stylesheet" href="/Content/chart.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script><style>
-    .center {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-    }
-</style>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
+    <script>tinymce.init({ selector: 'textarea' });</script>
+    <style>
+        .photo {
+            cursor: pointer;
+            /* Style as you please, it will become the visible UI component. */
+        }
+
+        .upload-photo {
+            opacity: 0;
+            position: absolute;
+            z-index: -1;
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+    </style>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">

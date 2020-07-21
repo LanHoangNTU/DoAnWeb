@@ -29,7 +29,7 @@
     <div class="col-lg-4" style="border: 1px solid black; border-radius:5px;">
         <h3>Ghi chú</h3>
         <hr />
-        <h4>@Model.GHICHU</h4>
+        <h4>@Html.Raw(Model.GHICHU)</h4>
     </div>
     <div class="col-lg-4" style="border: 1px solid black; border-radius:5px;">
         <h3>Tên loại</h3>
@@ -44,7 +44,7 @@
 </div>
 <div class="row" style="width:80%; margin:auto;">
     <hr />
-    <p>@Model.GIOITHIEUMH</p>
+    @Html.Raw(Model.GIOITHIEUMH);
 </div>
 <hr style="width:10%;"/>
 <div class="btn-group center" style="width:80%; margin:auto;">

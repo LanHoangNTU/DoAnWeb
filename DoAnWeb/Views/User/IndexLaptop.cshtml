@@ -66,7 +66,9 @@
             </div>
         }
         <hr />
+
         <div class="row">
+
             @foreach (var item in Model)
             {
                 <a style="text-decoration:none; color: black;" href="@Url.Action("Details", "User", new { id = item.MAMH})">
@@ -80,9 +82,20 @@
                         <hr />
                         <div style="margin-left: 1em; margin-right: 1em;">
                             @Html.DisplayFor(modelItem => item.TENMH)
-                            <h4 style="color: red">
-                                @item.DONGIA.ToString("###,0") VNĐ
-                            </h4>
+
+                            @if (item.GIAMGIA > 0)
+                            {
+                                <h4 style="color: red">
+                                    @((item.DONGIA - (item.GIAMGIA * item.DONGIA / 100)).ToString("###,0")) VNĐ &nbsp; 
+                                    <small><del>@item.DONGIA.ToString("###,0")</del></small>
+                                </h4>
+                            }
+                            else
+                            {
+                                <h4 style="color: red">
+                                    @item.DONGIA.ToString("###,0") VNĐ
+                                </h4>
+                            }
                         </div>
                     </div>
                 </a>
