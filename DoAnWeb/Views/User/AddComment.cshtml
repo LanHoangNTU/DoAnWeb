@@ -96,7 +96,7 @@
                 var mh = ViewBag.MH as DoAnWeb.Models.MATHANG;}
             <hr />
             <div class="row">
-                <div class="center col-sm-4">
+                <div class="center col-lg-4">
                     <img align="left" src="~/Images/Products/@mh.ANH"
                          style="height:150px; margin-right:5px;" />
                     <div>
@@ -115,15 +115,14 @@
                                onclick="location.href='@Url.Action("Details", "User", new { id = mh.MAMH})'" />
                     </div>
                 </div>
-                <div class="form-group col-lg-8">
+                <div class="form-group col-lg-5">
                     <div class="col-md-12">
                         @Html.TextAreaFor(model => model.NOIDUNG, htmlAttributes: new { @class = "form-control", @placeholder = "Mời bạn để lại bình luận (tối đa 250 ký tự)" } )
                         @Html.ValidationMessageFor(model => model.NOIDUNG, "", htmlAttributes: new { @class = "text-danger" })
                     </div>
                 </div>
 
-                <div class="col-lg-6"></div>
-                <div class="form-group col-lg-6">
+                <div class="col-lg-3">
                     <div class="col-md-12">
                         @Html.EditorFor(model => model.TENKH, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tên của bạn (tối đa 20 ký tự)" } })
                         @Html.ValidationMessageFor(model => model.TENKH, "", new { @class = "text-danger" })

@@ -4,19 +4,24 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-
-<div class="row">
+<link rel="stylesheet" href="~/Content/hover-btns.css">
+<div class="row" style="margin-right:10px;">
     @{ var mamh = ViewBag.MAMH;}
     @foreach (var item in Model)
     {
-        <div class="col-lg-4 center" style="border:2px solid green; border-radius: 5px; padding: 5px; height: 300px;">
+        <div class="col-lg-4 center mydivouter" style="border:2px solid green; border-radius: 5px; padding: 5px; height: 250px;">
             <img style="width:100%;" src="~/Images/Carousel/@mamh/@item.TENANH" />
+            <a class="mybuttonoverlap btn btn-danger"
+               onclick="return confirm('Bạn có chắc chắn muốn xóa ảnh này?')"
+               href="@Url.Action("DeletePicture", "QuanTri", new { id = item.MAANH})">
+                <i class="fa fa-trash"></i>
+            </a>
         </div>
     }
-    @if(Model.Count < 12)
+    @if (Model.Count < 12)
     {
-    <div class="col-lg-4 center" style="border:2px solid green; border-radius: 5px; padding: 5px; height: 300px;">
+        <div class="col-lg-4 center" style="border:2px solid green; border-radius: 5px; padding: 5px; height: 250px;">
             <a href="@Url.Action("AddPictures", "QuanTri", new { id = mamh})" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span></a>
-     </div>
+        </div>
     }
 </div>

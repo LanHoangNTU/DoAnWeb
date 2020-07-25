@@ -5,18 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-       .center {
+        body{
+            padding-top: 0px;
+        }
+        .center {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100%;
         }
+        .navbar-nav > li > a {
+            padding-top: 0px;
+
+        }
+        #lb {
+            font-size: 12px;
+            width: 15px;
+            height: 15px;
+            background: #ff0000;
+            color: #fff;
+            padding: 0 5px;
+            vertical-align: top;
+            border-radius: 50%;
+        }
+        @{ 
+            int c = 0;
+            if (Session["giohang"] != null)
+            {
+                var db = Session["giohang"] as List<DoAnWeb.Models.CTMH>;
+                c = db.Count;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -27,16 +52,19 @@
                 @Html.ActionLink("MTPK ASP", "IndexLaptop", "User", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Laptop", "IndexLaptop", "User")</li>
-                    <li>@Html.ActionLink("Phụ kiện", "IndexPhuKien", "User", new { page = 1, id = "LOAI000002" })</li>
-                    <li>@Html.ActionLink("Giỏ hàng", "CTGH", "User")</li>
+                <ul class="nav navbar-nav" style="padding:0;">
+                    <li><a href="@Url.Action("IndexLaptop", "User")"><i class="fa fa-laptop fa-2x center" style="color: white;"></i>Laptop</a></li>
+                    <li><a href="@Url.Action("IndexPhuKien", "User", new { page = 1, id = "LOAI000002" })"><i class="fa fa-headphones fa-2x center" style="color: white;"></i>Phụ kiện</a></li>
+                </ul>
+                <ul class="navbar-nav nav navbar-right">
+                    <li><a href="@Url.Action("CTGH", "User")"><i class="fa fa-shopping-cart fa-2x center" style="color: white;"><span id="lb" class="center">@c</span></i>Giỏ hàng</a></li>
                 </ul>
             </div>
         </div>
     </div>
-
-    @RenderBody()
+    <div style="min-height:678px;">
+        @RenderBody()
+    </div>
     <hr />
     <footer class="container-fluid">
         <div class="row">

@@ -1,0 +1,247 @@
+﻿@model DoAnWeb.Models.DANHGIA
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "AddRating";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true);
+    <link rel="stylesheet" href="/Content/chart.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/star.css" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        .full-width {
+            width: 100%;
+        }
+
+        textarea {
+            max-width: 100%;
+            min-width: 100%;
+            min-height: 150px;
+            max-height: 350px;
+            border-radius: 10px;
+        }
+
+        div .bordered {
+            border-radius: 8px;
+        }
+
+        div .right-border {
+            border-bottom-right-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .v-center {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .mua {
+            width: 100%;
+            display: inline-block;
+            padding: 0.46em 1.6em;
+            border: 0.1em solid #000000;
+            margin: 0 0.2em 0.2em 0;
+            border-radius: 0.12em;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-family: 'Roboto',sans-serif;
+            font-weight: 300;
+            color: #000000;
+            text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+            background-color: #ff6a00;
+            text-align: center;
+            transition: all 0.15s;
+            border-radius: 5px;
+        }
+
+        .mua-2 {
+            width: 100%;
+            display: inline-block;
+            padding: 0.46em 1.6em;
+            border: 0.1em solid #000000;
+            margin: 0 0.2em 0.2em 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-family: 'Roboto',sans-serif;
+            font-weight: 300;
+            color: #000000;
+            border-radius: 5px;
+        }
+
+        .mua:hover {
+            text-shadow: 0 0 2em rgba(255,255,255,1);
+            color: #FFFFFF;
+            border-color: #FFFFFF;
+        }
+    </style>
+
+    @Html.AntiForgeryToken()
+    <div style="width:85%; margin:auto;">
+        <div class="form-horizontal">
+            @{ PagedList.IPagedList<DoAnWeb.Models.DANHGIA> list = ViewBag.List;
+                var mh = ViewBag.MH as DoAnWeb.Models.MATHANG;}
+
+
+            <h3>@list.Count đánh giá</h3>
+            @{
+                int avg = 0, v = 0, iv = 0, iii = 0, ii = 0, o = 0;
+                int no = list.Count;
+            }
+            @foreach (DoAnWeb.Models.DANHGIA item in list)
+            {
+                avg += item.SAO;
+                switch (item.SAO)
+                {
+                    case 1: o += 1; break;
+                    case 2: ii += 1; break;
+                    case 3: iii += 1; break;
+                    case 4: iv += 1; break;
+                    case 5: v += 1; break;
+                }
+            }
+
+            <div class="row" style="
+                        border: 2px solid #dadada;
+                        border-radius: 10px;
+                        margin-left: 0.1%;
+                        margin-bottom: 10px;
+                        height: 10em;">
+                <div class="col-lg-5 center">
+                    <img align="left" src="~/Images/Products/@mh.ANH"
+                         style="height:100%; margin-right:5px;" />
+                    <div>
+                        <h5>
+                            @if (mh.TENMH.Length > 25)
+                            {
+                                <b>@mh.TENMH.Substring(0, 25)...</b>
+                            }
+                            else
+                            {
+                                <b>@mh.TENMH</b>
+                            }
+                        </h5>
+                        <h4 style="color:red;">@String.Format("{0:###,0}", mh.DONGIA)</h4>
+                        <input class="mua" type="button" value="XEM CHI TIẾT"
+                               onclick="location.href='@Url.Action("Details", "User", new { id = mh.MAMH })'" />
+                    </div>
+                </div>
+                <div class="col-lg-2 center" style="border-left:1px solid #dadada; height:100%;">
+                    @if (no > 0)
+                    {
+                        <h1 style="color:#ffa400;">@(String.Format("{0:0.0}", (float)avg / (float)no))</h1>
+                    }
+                    else
+                    {
+                        <h1 style="color:#ffa400">0.0</h1>
+                    }<h3 class="glyphicon glyphicon-star" style="color:#ffa400;"></h3>
+                </div>
+                <div class="col-sm-2" style="border-left:1px solid #dadada; height:100%; text-align:center;">
+                    <h5 style="margin-top:0.4em;"><b>5<span class="glyphicon glyphicon-star"></span></b>&nbsp;&nbsp;@v đánh giá</h5>
+                    <h5><b>4<span class="glyphicon glyphicon-star"></span></b>&nbsp;&nbsp;@iv đánh giá</h5>
+                    <h5><b>3<span class="glyphicon glyphicon-star"></span></b>&nbsp;&nbsp;@iii đánh giá</h5>
+                    <h5><b>2<span class="glyphicon glyphicon-star"></span></b>&nbsp;&nbsp;@ii đánh giá</h5>
+                    <h5><b>1<span class="glyphicon glyphicon-star"></span></b>&nbsp;&nbsp;@o đánh giá</h5>
+                </div>
+                <div class="charts charts--grouped col-sm-3" style="height:100%; margin-bottom:10px;">
+                    @{ var chart = "chart--p{0:0}";}
+                    <div class="charts__chart bordered chart-p100" data-percent>
+                        <div class="charts__chart bordered @(String.Format(chart, v / (float)no * 100)) chart--yellow" data-percent></div>
+                    </div>
+                    <div class="charts__chart bordered chart-p100" data-percent>
+                        <div class="charts__chart bordered @(String.Format(chart, iv / (float)no * 100)) chart--yellow" data-percent></div>
+                    </div>
+                    <div class="charts__chart bordered chart-p100" data-percent>
+                        <div class="charts__chart bordered @(String.Format(chart, iii / (float)no * 100)) chart--yellow" data-percent></div>
+                    </div>
+                    <div class="charts__chart bordered chart-p100" data-percent>
+                        <div class="charts__chart bordered @(String.Format(chart, ii / (float)no * 100)) chart--yellow" data-percent></div>
+                    </div>
+                    <div class="charts__chart bordered chart-p100" data-percent>
+                        <div class="charts__chart bordered @(String.Format(chart, o / (float)no * 100)) chart--yellow" data-percent></div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="col-md-12">
+                        @Html.TextAreaFor(model => model.NOIDUNG, htmlAttributes: new { @class = "form-control", @placeholder = "Mời bạn để lại đánh giá (tối đa 250 ký tự)" })
+                        @Html.ValidationMessageFor(model => model.NOIDUNG, "", htmlAttributes: new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group col-lg-6">
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.TENKH, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tên của bạn (tối đa 20 ký tự)" } })
+                            @Html.ValidationMessageFor(model => model.TENKH, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.SDT, new { htmlAttributes = new { @class = "form-control", @placeholder = "Số điện thoại (tối đa 15 ký tự)" } })
+                            @Html.ValidationMessageFor(model => model.SDT, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <fieldset class="col-lg-6">
+                        <span class="star-cb-group">
+                            @Html.RadioButtonFor(model => model.SAO, 5, htmlAttributes: new { @id = "rating-5", @name = "rating" })
+                            <label for="rating-5">5</label>
+                            @Html.RadioButtonFor(model => model.SAO, 4, htmlAttributes: new { @id = "rating-4", @name = "rating" })
+                            <label for="rating-4">4</label>
+                            @Html.RadioButtonFor(model => model.SAO, 3, htmlAttributes: new { @id = "rating-3", @name = "rating" })
+                            <label for="rating-3">3</label>
+                            @Html.RadioButtonFor(model => model.SAO, 2, htmlAttributes: new { @id = "rating-2", @name = "rating" })
+                            <label for="rating-2">2</label>
+                            @Html.RadioButtonFor(model => model.SAO, 1, htmlAttributes: new { @id = "rating-1", @name = "rating" })
+                            <label for="rating-1">1</label>
+                        </span>
+                        @Html.ValidationMessageFor(model => model.SAO, "", new { @class="text-danger"})
+                    </fieldset>
+                    <div class="col-lg-12"></div>
+                    <div class="col-lg-6">
+                        <div>
+                            <input style="width:100%;" type="submit" value="Gửi đánh giá" class="btn btn-default btn-primary" />
+                            @Html.HiddenFor(model => model.MAMH, new { Value = mh.MAMH })
+                            @Html.HiddenFor(model => model.MATHANG, new { Value = mh })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div>
+                @foreach (var item in list)
+                {
+                    <div class="center" style="width:2em;
+                                                height:2em;
+                                                border:1px solid #808080;
+                                                background-color:#808080;
+                                                float:left;">
+                        <b>@item.TENKH.Substring(0, 1)</b>
+                    </div>
+
+                    <div class="v-center" style="
+                                                height:2em;">
+                        <h4>&nbsp;&nbsp;<b>@Html.DisplayFor(modelItem => item.TENKH)</b></h4>
+                    </div>
+                    <h5>@item.SAO<span class="glyphicon glyphicon-star" style="color:yellow"></span></h5>
+                    @Html.DisplayFor(modelItem => item.NOIDUNG)<br />
+                    <br />
+                    <hr />
+                }
+            </div>
+            @Html.PagedListPager(list, page => Url.Action("Comments", new { id = Model.MAMH, page }))
+        </div>
+        </div>
+}

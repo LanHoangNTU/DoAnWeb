@@ -1,0 +1,44 @@
+﻿@model DoAnWeb.Models.THONGSOKYTHUAT
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Sửa thông tin</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>@Model.MATHANG.TENMH</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.MATS)
+        @Html.HiddenFor(model => model.MAMH)
+        @Html.HiddenFor(model => model.MATHANG)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TIEUDE, "Tiêu đề", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TIEUDE, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TIEUDE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.NOIDUNG, "Nội dung", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.NOIDUNG, new { htmlAttributes = new { @class = "form-control", @style="max-width:100%;" } })
+                @Html.ValidationMessageFor(model => model.NOIDUNG, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10 btn-group">
+                <input type="submit" value="Lưu" class="btn btn-primary" />
+                @Html.ActionLink("Trở về", "TechInfo", "QuanTri", new { id = Model.MAMH }, new { Class = "btn btn-success" })
+            </div>
+        </div>
+    </div>
+}

@@ -19,12 +19,12 @@
 {
     <div style="width: 30%; margin:auto; margin-top:50px;" class="row">
         <div class="col-lg-4">
-            Mã
+            Mã hóa đơn
         </div>
         <div class="col-lg-8">
             <input class="form-control" type="text" name="name" value="@ViewBag.NAME" />
         </div>
-
+        <div class="col-lg-4"></div>
         <div class="col-lg-4">
             <input class="btn btn-primary"
                    type="submit" name="submit" value="Tìm kiếm" style="width:100%; display:inline;" />
@@ -50,6 +50,9 @@ grid.Column("MAGH","Mã", format:@<text><h5>@item.MAGH</h5></text>),
 grid.Column("HOTENKH","Tên khách hàng", format:@<text><h5>@item.HOTENKH</h5></text>),
 grid.Column("SDTKH","Số điện thoại", format:@<text><h5>@item.SDTKH</h5></text>),
 grid.Column("TONGTIEN","Tổng tiền", format:@<text> @item.TONGTIEN.ToString("#,##0")</text>),
-grid.Column("Xác nhận đã giao hàng", format:@<text><a href="@Url.Action("XacNhan", "QuanTri", new { id = item.MAGH})">Xác nhận</a></text>),
+grid.Column("Thao tác", format:@<text><div class="btn-group">
+    @Html.ActionLink("Xác nhận đơn hàng", "XacNhan", "QuanTri", new { id = item.MAGH}, new{ onclick = "return confirm('Đồng ý xác nhận?');", Class = "btn btn-success"})
+    @Html.ActionLink("Hủy đơn hàng", "Delete", "GIOHANGs", new { id = item.MAGH}, new{ onclick = "return confirm('Đồng ý hủy?');",  Class = "btn btn-danger"})
+    </div></text>),
 })
 </div>

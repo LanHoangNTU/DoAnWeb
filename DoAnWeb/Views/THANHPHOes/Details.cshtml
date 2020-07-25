@@ -1,0 +1,27 @@
+﻿@model DoAnWeb.Models.THANHPHO
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>THANHPHO</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TENTP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TENTP)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MATP }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

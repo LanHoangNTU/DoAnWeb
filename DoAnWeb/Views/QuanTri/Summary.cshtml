@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "Summary";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    input[type=date]{
+        max-width: 150px;
+        padding-top: 0;
+        font-size: 1.5rem;
+    }
+</style>
+<h2>Thống kê doanh thu</h2>
+@{ var list = ViewBag.SUM as System.Collections.Hashtable;}
+@using (Html.BeginForm())
+{
+<div class="input-group" style="display: inline-block;">
+    <input class="form-control" type="date" name="x" />
+    <input class="form-control" type="date" name="y" />
+    <span class="input-group-btn" style="display: inline-block;">
+        <button class="btn btn-default" type="submit">Thống kê</button>
+    </span>
+</div>
+}
+<br />
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Ngày</th>
+            <th>Thu vào</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in list.Keys)
+        {
+            <tr>
+                <td>@string.Format("{0:dd/MM/yyy}", item)</td>
+                <td>@string.Format("{0:###,0}", list[item])</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $(".datepicker").datepicker({
+            dateFormat: "dd-mm-yy",
+            changemonth: true,
+            changeyear: true
+        });
+    });
+</script>

@@ -127,6 +127,44 @@ namespace DoAnWeb.Controllers
             return View(bl);
         }
 
+        public string NewRatingId()
+        {
+            var idMax = db.DANHGIAs.ToList().Select(n => n.MADG).Max();
+            long newId = long.Parse(idMax) + 1;
+            return newId.ToString("000000000000");
+
+        }
+
+        [HttpGet]
+        public ActionResult AddRating(string id, int? page)
+        {
+            DANHGIA bl = new DANHGIA();
+            bl.MAMH = id;
+            var mm = db.MATHANGs.Find(id);
+            bl.MATHANG = mm;
+            int pageNumber = (page ?? 1);
+            ViewBag.List = db.MATHANGs.Find(id).DANHGIAs.OrderBy(m => m.SAO)
+                .ToPagedList(pageNumber, 15);
+            ViewBag.MH = db.MATHANGs.Find(bl.MAMH);
+            return View(bl);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddRating([Bind(Include = "MADG,MAMH,SAO,TENKH,SDT,NOIDUNG")] DANHGIA bl)
+        {
+            if (ModelState.IsValid)
+            {
+                bl.MADG = NewRatingId();
+                db.DANHGIAs.Add(bl);
+                db.SaveChanges();
+            }
+            ViewBag.List = db.MATHANGs.Find(bl.MAMH).DANHGIAs.OrderByDescending(m => m.SAO)
+                .ToPagedList(1, 15);
+            ViewBag.MH = db.MATHANGs.Find(bl.MAMH);
+            return View(bl);
+        }
+
         private string GetNewCartId()
         {
             var idMax = db.GIOHANGs.ToList().Select(n => n.MAGH).Max();
@@ -139,7 +177,7 @@ namespace DoAnWeb.Controllers
 
         public ActionResult CTGH()
         {
-            List<CTGIOHANG> giohang = Session["giohang"] as List<CTGIOHANG>;
+            List<CTMH> giohang = Session["giohang"] as List<CTMH>;
             return View(giohang);
         }
 
@@ -147,19 +185,17 @@ namespace DoAnWeb.Controllers
         {
             if(Session["giohang"] == null)
             {
-                Session["giohang"] = new List<CTGIOHANG>();
+                Session["giohang"] = new List<CTMH>();
             }
 
-            var giohang = Session["giohang"] as List<CTGIOHANG>;
+            var giohang = Session["giohang"] as List<CTMH>;
 
             if(giohang.FirstOrDefault(m => m.MAMH == mh) == null)
             {
                 MATHANG sp = db.MATHANGs.Find(mh);
 
-                CTGIOHANG ctx = new CTGIOHANG();
-                ctx.MAGH = "0";
+                CTMH ctx = new CTMH();
                 ctx.MAMH = sp.MAMH;
-                ctx.MATHANG = sp;
                 ctx.SOLUONG = 1;
                 ctx.THANHTIEN = (int)(sp.DONGIA - sp.DONGIA * sp.GIAMGIA / 100);
 
@@ -167,7 +203,7 @@ namespace DoAnWeb.Controllers
             }
             else
             {
-                CTGIOHANG ct = giohang.FirstOrDefault(m => m.MAMH == mh);
+                CTMH ct = giohang.FirstOrDefault(m => m.MAMH == mh);
                 MATHANG sp = db.MATHANGs.Find(mh);
                 if (add)
                 {
@@ -189,8 +225,8 @@ namespace DoAnWeb.Controllers
 
         public ActionResult RemoveFromCart(string id)
         {
-            List<CTGIOHANG> giohang = Session["giohang"] as List<CTGIOHANG>;
-            CTGIOHANG itemXoa = giohang.FirstOrDefault(m => m.MAMH.Equals(id));
+            List<CTMH> giohang = Session["giohang"] as List<CTMH>;
+            CTMH itemXoa = giohang.FirstOrDefault(m => m.MAMH.Equals(id));
             if (itemXoa != null)
             {
                 giohang.Remove(itemXoa);
@@ -200,7 +236,7 @@ namespace DoAnWeb.Controllers
 
         public ActionResult Select_1()
         {
-            ViewBag.MATP = new SelectList(db.THANHPHOes, "MATP", "TENTP");
+            ViewBag.MATP = new SelectList(db.THANHPHOes.Where(m => m.QUANHUYENs.Where(n => n.PHUONGXAs.Count > 0).Count() > 0), "MATP", "TENTP");
             return View();
         }
         [HttpPost]
@@ -208,7 +244,8 @@ namespace DoAnWeb.Controllers
         {
             string id = collection["id"];
             ViewBag.DATA = id;
-            ViewBag.MAQH = new SelectList(db.QUANHUYENs.Where(x => x.MATP.Equals(id)), "MAQH", "TENQH");;
+            ViewBag.TENQH = db.THANHPHOes.Find(id).TENTP;
+            ViewBag.MAQH = new SelectList(db.QUANHUYENs.Where(x => x.MATP.Equals(id) && x.PHUONGXAs.Count > 0), "MAQH", "TENQH");;
             return View();
         }
         [HttpPost]
@@ -225,13 +262,16 @@ namespace DoAnWeb.Controllers
         {
             ViewBag.MATP = new SelectList(db.PHUONGXAs.Where(x => x.MAQH.Equals(id)), "MAPX", "TENPX");
             ViewBag.MAPTTT = new SelectList(db.PHUONGTHUCTHANHTOANs, "MAPTTT", "TENPTTT");
+            var qh = db.QUANHUYENs.Find(id);
+            ViewBag.TENTP = qh.THANHPHO.TENTP;
+            ViewBag.TENQH = qh.TENQH;
             return View();
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ConfirmBuy([Bind(Include = "MAGH,MATP,MAPTTT,TRANGTHAI,NGAYXUAT,TONGTIEN,HOTENKH,SDTKH,GIOITINHKH,LOINHAN,DIACHI")] GIOHANG gIOHANG)
+        public ActionResult ConfirmBuy([Bind(Include = "MAGH,MATP,MAPTTT,TRANGTHAI,NGAYXUAT,TONGTIEN,HOTENKH,SDTKH,GIOITINHKH,LOINHAN,DIACHI")] GIOHANG gIOHANG, string tp, string qh)
         {
             if (Session["giohang"] == null)
             {
@@ -242,22 +282,37 @@ namespace DoAnWeb.Controllers
             {
                 if (gIOHANG.LOINHAN == null || gIOHANG.LOINHAN.Replace(" ", "").Length <= 0)
                     gIOHANG.LOINHAN = "Không có";
+                List<CTMH> ctghs = Session["giohang"] as List<CTMH>;
                 gIOHANG.MAGH = GetNewCartId();
                 db.GIOHANGs.Add(gIOHANG);
                 db.SaveChanges();
+                foreach (var item in ctghs)
+                {
+                    var gh = new CTGIOHANG();
+                    gh.MAGH = gIOHANG.MAGH;
+                    gh.MAMH = item.MAMH;
+                    gh.MATHANG = db.MATHANGs.Find(item.MAMH);
+                    gh.SOLUONG = item.SOLUONG;
+                    gh.THANHTIEN = item.THANHTIEN;
+                    gh.GIOHANG = gIOHANG;
+                    db.CTGIOHANGs.Add(gh);
+                    db.SaveChanges();
+                }
                 Session["giohang"] = null;
-                return RedirectToAction("CheckOutResult", "User", new { success = true});
+                return RedirectToAction("CheckOutResult", "User", new { success = true, cart = gIOHANG});
             }
 
             ViewBag.MAPTTT = new SelectList(db.PHUONGTHUCTHANHTOANs, "MAPTTT", "TENPTTT", gIOHANG.MAPTTT);
             ViewBag.MATP = new SelectList(db.PHUONGXAs, "MAPX", "TENPX", gIOHANG.MATP);
+            ViewBag.TENTP = tp;
+            ViewBag.TENQH = qh;
             return View(gIOHANG);
         }
 
-        public ActionResult CheckOutResult(bool success)
+        public ActionResult CheckOutResult(bool success, GIOHANG gh)
         {
             ViewBag.SC = success;
-            return View();
+            return View(gh);
         }
     }
 }

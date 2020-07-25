@@ -50,7 +50,7 @@
         @{
             string active = ViewBag.NSX;
             var db = new DoAnWeb.Models.MTPKEntities1();
-            var list = db.NHASANXUATs;
+            var list = db.NHASANXUATs.Where(m => m.MATHANGs.Where(n => n.MALOAI == "LOAI000001").Count() > 0);
             <div class="row">
                 @foreach (var item in list)
                 {<a href="@Url.Action("IndexLaptop", "User", new { page = 1, nsx = item.MANSX})">
@@ -86,7 +86,7 @@
                             @if (item.GIAMGIA > 0)
                             {
                                 <h4 style="color: red">
-                                    @((item.DONGIA - (item.GIAMGIA * item.DONGIA / 100)).ToString("###,0")) VNĐ &nbsp; 
+                                    @((item.DONGIA - (item.GIAMGIA * item.DONGIA / 100)).ToString("###,0")) VNĐ &nbsp;
                                     <small><del>@item.DONGIA.ToString("###,0")</del></small>
                                 </h4>
                             }

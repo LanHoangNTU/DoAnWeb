@@ -1,8 +1,9 @@
-﻿@model List<DoAnWeb.Models.CTGIOHANG>
+﻿@model List<DoAnWeb.Models.CTMH>
 
 @{
     ViewBag.Title = "CTGH";
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    var db = new DoAnWeb.Models.MTPKEntities1();
 }
 
     <div class="container">
@@ -53,14 +54,12 @@
                             </tr>
                             @foreach (var item in Model)
                             {
+                                var MH = db.MATHANGs.Find(item.MAMH);
                                 <tr>
-                                    @{ var db = new DoAnWeb.Models.MTPKEntities1();
-                                        var mh = db.MATHANGs.Find(item.MAMH);
-                                    }
-                                    <td class="text-center"><img src="~/Images/Products/@mh.ANH" width="70" height="60" /> </td>
-                                    <td><a target="_blank" href="@Url.Action("Details", "User", new { id = item.MAMH })" style="font-size:medium;"> @mh.TENMH </a> </td>
-                                    <td> @mh.DONGIA.ToString("#,##0")</td>
-                                    <td> @mh.GIAMGIA.ToString("#.0")%</td>
+                                    <td class="text-center"><img src="~/Images/Products/@MH.ANH" width="70" height="60" /> </td>
+                                    <td><a target="_blank" href="@Url.Action("Details", "User", new { id = item.MAMH })" style="font-size:medium;"> @MH.TENMH </a> </td>
+                                    <td> @MH.DONGIA.ToString("#,##0")</td>
+                                    <td> @MH.GIAMGIA.ToString("#.0")%</td>
                                     <td> @item.THANHTIEN.ToString("#,##0")</td>
                                     <td> <a href="@Url.Action("AddTocart", "User", new { mh = item.MAMH, add = false})" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-minus"></span></a></td>
                                     <td align="center"> <h5>@item.SOLUONG</h5></td>

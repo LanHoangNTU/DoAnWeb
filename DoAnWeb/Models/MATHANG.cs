@@ -37,7 +37,6 @@ namespace DoAnWeb.Models
         [Required]
         [DisplayName("Tên mặt hàng")]
         public string TENMH { get; set; }
-        [Required]
         [DisplayName("Ảnh đại diện")]
         public string ANH { get; set; }
         [DisplayName("Đơn giá")]

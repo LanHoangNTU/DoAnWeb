@@ -1,0 +1,35 @@
+﻿@model DoAnWeb.Models.QUANHUYEN
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>QUANHUYEN</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TENQH)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TENQH)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.THANHPHO.TENTP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.THANHPHO.TENTP)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MAQH }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

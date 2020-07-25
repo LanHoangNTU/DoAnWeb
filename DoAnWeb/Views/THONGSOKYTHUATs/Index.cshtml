@@ -1,0 +1,46 @@
+﻿@model IEnumerable<DoAnWeb.Models.THONGSOKYTHUAT>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TIEUDE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NOIDUNG)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MATHANG.MALOAI)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TIEUDE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NOIDUNG)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MATHANG.MALOAI)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.MATS }) |
+            @Html.ActionLink("Details", "Details", new { id=item.MATS }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.MATS })
+        </td>
+    </tr>
+}
+
+</table>

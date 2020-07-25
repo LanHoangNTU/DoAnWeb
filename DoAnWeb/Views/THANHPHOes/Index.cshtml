@@ -1,0 +1,31 @@
+﻿@model IEnumerable<DoAnWeb.Models.THANHPHO>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var grid = new WebGrid(Model, canPage: true, defaultSort: "QUANHUYENs.Count", rowsPerPage: 15);
+}
+
+<hr />
+<a href="@Url.Action("Create", "THANHPHOes")" class="btn btn-success">Thêm Thành phố</a>
+<div id="gridContent">
+    @ViewBag.TB
+    @grid.GetHtml(
+        tableStyle: "table table-bordered table-hover",
+        footerStyle: "table-pager",
+        fillEmptyRows: true,
+        mode: WebGridPagerModes.All,
+        alternatingRowStyle: "alternatingRowStyle",
+          columns: new[] {
+grid.Column("MATP","Mã", format:@<text><h5>@item.MATP</h5></text>),
+grid.Column("TENTP","Tên", format:@<text> <h5 style="color: @(item.QUANHUYENs.Count>0?"green":"red")">@item.TENTP</h5></text>),
+grid.Column("QUANHUYENs.Count","Số Quận / Huyện", format:@<text> <h5 style="color: @(item.QUANHUYENs.Count>0?"green":"red")">@item.QUANHUYENs.Count</h5></text>),
+grid.Column("","", format:@<text> 
+    <span class="btn-group">
+    <a class="btn btn-primary" href="@Url.Action("Edit", "THANHPHOes", new{ id = item.MATP})">Chỉnh sửa</a>
+    <button class="btn btn-danger" onclick="location.href='@Url.Action("Delete", "THANHPHOes", new{ id = item.MATP})'" @(item.QUANHUYENs.Count>0?"disabled":"")>Xóa</button>
+    </span>
+    </text>),
+})
+</div>
+

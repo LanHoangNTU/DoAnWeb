@@ -1,0 +1,43 @@
+﻿@model DoAnWeb.Models.THONGSOKYTHUAT
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>THONGSOKYTHUAT</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TIEUDE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TIEUDE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NOIDUNG)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NOIDUNG)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MATHANG.MALOAI)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MATHANG.MALOAI)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MATS }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DoAnWeb.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace DoAnWeb.Controllers
 {
@@ -15,9 +16,19 @@ namespace DoAnWeb.Controllers
         private MTPKEntities1 db = new MTPKEntities1();
 
         // GET: GIOHANGs
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Index(string id = "")
         {
+            if (Session["admin"] == null)
+            {
+                return RedirectToAction("LoginForm", "QuanTri");
+            }
             var gIOHANGs = db.GIOHANGs.Include(g => g.PHUONGTHUCTHANHTOAN).Include(g => g.PHUONGXA);
+            ViewBag.MAGH = id;
+            if (!id.IsNullOrWhiteSpace())
+            {
+                gIOHANGs.Where(m => m.MAGH.ToLower().Contains(id.ToLower()));
+            }
             return View(gIOHANGs.ToList());
         }
 
@@ -33,6 +44,7 @@ namespace DoAnWeb.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CTGH = db.CTGIOHANGs.Where(m => m.MAGH == gIOHANG.MAGH).ToList();
             return View(gIOHANG);
         }
 
@@ -98,30 +110,12 @@ namespace DoAnWeb.Controllers
             return View(gIOHANG);
         }
 
-        // GET: GIOHANGs/Delete/5
         public ActionResult Delete(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            GIOHANG gIOHANG = db.GIOHANGs.Find(id);
-            if (gIOHANG == null)
-            {
-                return HttpNotFound();
-            }
-            return View(gIOHANG);
-        }
-
-        // POST: GIOHANGs/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
         {
             GIOHANG gIOHANG = db.GIOHANGs.Find(id);
             db.GIOHANGs.Remove(gIOHANG);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Bills", "QuanTri");
         }
 
         protected override void Dispose(bool disposing)

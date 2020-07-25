@@ -2,11 +2,13 @@
 using Microsoft.Ajax.Utilities;
 using PagedList;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Caching;
 using System.Web.Mvc;
 
 namespace DoAnWeb.Controllers
@@ -15,38 +17,52 @@ namespace DoAnWeb.Controllers
     {
         // GET: QuanTri
         private MTPKEntities1 db = new MTPKEntities1();
-        [HttpGet]
-        public ActionResult Index(int? page, List<MATHANG> mhs = null, string name = "", string MALOAI = "", string id3 ="")
+        public ActionResult Home()
         {
             if (Session["admin"] == null)
-                return RedirectToAction("LoginForm", "QuanTri");
-
-            var list = db.MATHANGs.AsQueryable();
-
-            ViewBag.NAME = "";
-            if (name.Replace(" ", "").Length > 0)
             {
-                ViewBag.NAME = name;
+                return RedirectToAction("LoginForm", "QuanTri");
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Index(int? page,  string name, string MALOAI, string id3)
+        {
+            if (Session["admin"] == null)
+            {
+                return RedirectToAction("LoginForm", "QuanTri");
+            }
+            var list = db.MATHANGs.AsQueryable();
+            if (!name.IsNullOrWhiteSpace())
+            {
                 list = list.Where(m => m.TENMH.ToLower().Contains(name.ToLower()));
             }
 
-            if (MALOAI.Length > 0)
+            if (!MALOAI.IsNullOrWhiteSpace())
             {
                 list = list.Where(m => m.MALOAI.Equals(MALOAI));
             }
 
-            if (id3.Length > 0)
+            if (!id3.IsNullOrWhiteSpace())
             {
                 list = list.Where(m => m.MANSX.Equals(id3));
             }
+            ViewBag.NAME = name;
             ViewBag.MALOAI = new SelectList(db.LOAIMATHANGs, "MALOAI", "TENLOAI");
-            ViewBag.PAGELIST = list.OrderBy(m => m.MAMH).ToPagedList((page ?? 1), 1);
-            return View(list.ToList());
+            ViewBag.LOAI = MALOAI;
+            return View(list.OrderBy(m => m.MAMH).ToPagedList(page ?? 1, 6));
         }
 
         public ActionResult LoginForm()
         {
             return View();
+        }
+
+        public ActionResult Logout()
+        {
+            Session["admin"] = null;
+            return RedirectToAction("LoginForm");
         }
 
         public ActionResult Verify(FormCollection collection)
@@ -59,7 +75,7 @@ namespace DoAnWeb.Controllers
                 if(id.Equals(item.TAIKHOAN) && pass.Equals(item.MATKHAU))
                 {
                     Session["admin"] = db.QUANTRIVIENs.Find(id);
-                    return RedirectToAction("Index", "QuanTri", new { page = 1});
+                    return RedirectToAction("Home", "QuanTri", new { page = 1});
                 }
             }
 
@@ -102,31 +118,12 @@ namespace DoAnWeb.Controllers
             return RedirectToAction("TechInfo", "QuanTri", new { id = MAMH});
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult AddTech(string id)
         {
             ViewBag.MAMH = db.MATHANGs.Find(id);
             return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddTech([Bind(Include = "MATS,MAMH,TIEUDE,NOIDUNG")] THONGSOKYTHUAT tHONGSOKYTHUAT)
-        {
-            if (ModelState.IsValid)
-            {
-                tHONGSOKYTHUAT.MATS = GetTechMaxId();
-                db.THONGSOKYTHUATs.Add(tHONGSOKYTHUAT);
-                db.SaveChanges();
-                return RedirectToAction("TechInfo", "QuanTri", new { id = tHONGSOKYTHUAT.MAMH });
-            }
-
-            return View(tHONGSOKYTHUAT);
-        }
-        public ActionResult ShowPictures(string id)
-        {
-            var list = db.ANHMINHHOAs.Where(m => m.MAMH.Equals(id));
-            ViewBag.MAMH = id;
-            return View(list.ToList());
         }
 
         private string GetTechMaxId()
@@ -148,6 +145,16 @@ namespace DoAnWeb.Controllers
 
             return db.ANHMINHHOAs.Select(m => m.MAANH).Max() + 1;
         }
+
+        public ActionResult ShowPictures(string id)
+        {
+            var list = db.ANHMINHHOAs.Where(m => m.MAMH.Equals(id));
+            ViewBag.MAMH = id;
+            return View(list.ToList());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult AddPictures(string id)
         {
             ViewBag.MAMH = db.MATHANGs.Find(id);
@@ -182,6 +189,10 @@ namespace DoAnWeb.Controllers
         [HttpGet]
         public ActionResult Bills(int? page, string name = "")
         {
+            if (Session["admin"] == null)
+            {
+                return RedirectToAction("LoginForm", "QuanTri");
+            }
             ViewBag.Search = name;
             var list = db.GIOHANGs.Where(m => !m.TRANGTHAI);
             if (!name.IsNullOrWhiteSpace())
@@ -192,11 +203,13 @@ namespace DoAnWeb.Controllers
             return View(list.ToList());
         }
 
+        [ValidateAntiForgeryToken]
         public ActionResult XacNhan(string id)
         {
 
             GIOHANG gh = db.GIOHANGs.Find(id);
             gh.TRANGTHAI = true;
+            gh.NGAYXUAT = DateTime.Now.Date;
 
             var list = db.CTGIOHANGs.Where(x => x.MAGH == id);
 
@@ -204,6 +217,45 @@ namespace DoAnWeb.Controllers
             db.SaveChanges();
 
             return RedirectToAction("Bills", "QuanTri");
+        }
+
+        public ActionResult DeletePicture(int id)
+        {
+            var anh = db.ANHMINHHOAs.Find(id);
+            var mh = anh.MAMH;
+            ViewBag.MAMH = mh;
+            db.ANHMINHHOAs.Remove(anh);
+            db.SaveChanges();
+            return RedirectToAction("ShowPictures", new { id = mh});
+        }
+
+        public ActionResult Summary(DateTime? x = null, DateTime? y = null)
+        {
+            var list = db.GIOHANGs.AsQueryable();
+            IEnumerable<IGrouping<DateTime, GIOHANG>> gropus = null;
+            if (x.HasValue && y.HasValue)
+            {
+                gropus = list.ToList().Where(m => m.NGAYXUAT >= x && m.NGAYXUAT <= y
+                && m.TRANGTHAI).GroupBy(m => m.NGAYXUAT);
+            }
+            else
+            {
+                gropus = list.ToList().Where(m => m.NGAYXUAT >= DateTime.Now.Date.AddDays(-30) 
+                && m.NGAYXUAT <= DateTime.Now.Date && m.TRANGTHAI)
+                    .GroupBy(m => m.NGAYXUAT);
+            }
+            var result = new Hashtable();
+            foreach (var item in gropus)
+            {
+                long val = 0;
+                foreach (var i in item)
+                {
+                    val += i.TONGTIEN;
+                }
+                result.Add(item.Key, val);
+            }
+            ViewBag.SUM = result;
+            return View();
         }
     }
 }

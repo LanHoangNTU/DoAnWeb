@@ -113,8 +113,8 @@
 
         <hr />
         <div class="form-group">
-            @Html.LabelFor(model => model.GHICHU, "Ghi chú", htmlAttributes: new { Class = "form-control" })
-            @Html.TextAreaFor(model => model.GHICHU, htmlAttributes: new { Class = "form-control", placeholder = "Ghi chú..." })
+            @Html.LabelFor(model => model.GHICHU, "Ghi chú", htmlAttributes: new { Class = "control-label" })
+            @Html.EditorFor(model => model.GHICHU, new { htmlAttributes = new { @class = "form-control", @placeholder = "Ghi chú...", @style="max-width: 100%;" } })
             @Html.ValidationMessageFor(model => model.GHICHU, "", new { @class = "text-danger" })
         </div>
         <hr />
@@ -145,7 +145,3 @@
     var target = document.getElementById("target");
     showImg(src, target);
 </script>
-
-<div>
-    @Html.ActionLink("Trở về danh sách", "Index", "QuanTri", null, new { @class = "btn btn-danger"})
-</div>

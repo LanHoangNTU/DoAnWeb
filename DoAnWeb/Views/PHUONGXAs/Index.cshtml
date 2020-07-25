@@ -1,0 +1,40 @@
+﻿@model IEnumerable<DoAnWeb.Models.PHUONGXA>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TENPX)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QUANHUYEN.MATP)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TENPX)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.QUANHUYEN.MATP)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.MAPX }) |
+            @Html.ActionLink("Details", "Details", new { id=item.MAPX }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.MAPX })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,34 @@
+﻿@model DoAnWeb.Models.PHUONGXA
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        @Html.HiddenFor(model => model.MAPX)
+        @Html.HiddenFor(model => model.MAQH)
+        @Html.HiddenFor(model => model.QUANHUYEN)
+
+        @{var QH = ViewBag.MAQH as DoAnWeb.Models.QUANHUYEN;}
+        <h2>Tỉnh / Thành phố: <b class="text-danger">@QH.THANHPHO.TENTP</b></h2>
+        <h3>Quận / Huyện: <b class="text-danger">@QH.TENQH</b></h3>
+        <h4>Mã: <b class="text-danger">@Model.MAPX</b></h4>
+        <hr />
+        <div class="form-group">
+            @Html.LabelFor(model => model.TENPX, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="input-group" style="width:30%">
+                @Html.EditorFor(model => model.TENPX, new { htmlAttributes = new { @class = "form-control", @style = "max-width:100%;" } })
+                <span class="input-group-btn">
+                    <input type="submit" value="Lưu" class="btn btn-default" />
+                </span>
+            </div>
+
+            @Html.ValidationMessageFor(model => model.TENPX, "", new { @class = "text-danger", @style = "margin-left: 14em;" })
+        </div>
+    </div>
+}

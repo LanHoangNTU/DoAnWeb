@@ -1,0 +1,68 @@
+﻿@model DoAnWeb.Models.LOAIMATHANG
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Chi tiết</h2>
+
+<div>
+    <h4>Loại mặt hàng</h4>
+    <hr />
+    <div class="row">
+        <div class="col-lg-2">
+            <h5><b>@Html.DisplayNameFor(model => model.MALOAI)</b></h5>
+            <h5><b>@Html.DisplayNameFor(model => model.TENLOAI)</b></h5>
+            <h5><b>Số lượng mặt hàng</b></h5>
+        </div>
+
+        <div class="col-lg-3">
+            <h5><b class="id">#@Html.DisplayFor(model => model.MALOAI)</b></h5>
+            <h5>@Html.DisplayFor(model => model.TENLOAI)</h5>
+            <h5 class="@(Model.MATHANGs.Count<=0?"text-danger":"text-success")"><b>@Model.MATHANGs.Count</b></h5>
+        </div>
+    </div><hr />
+    <div class="btn-group"
+         onclick="location.href = '@Url.Action("Edit", "LOAIMATHANGs", new { id = Model.MALOAI})'">
+        <button class="btn btn-primary" style="width: 70px;">
+            Sửa
+        </button>
+
+        <button class="btn btn-primary" style="width: 50px;">
+            <i class="fa fa-edit"></i>
+        </button>
+    </div><br /><br />
+    <div class="btn-group">
+        @if (Model.MATHANGs.Count > 0)
+        {
+            <button class="btn btn-danger"
+                    disabled
+                    style="width: 70px;">
+                Xóa
+            </button>
+
+            <button class="btn btn-danger"
+                    disabled
+                    style="width: 50px;">
+                <i class="fa fa-remove"></i>
+            </button>
+        }
+        else
+        {
+            <a class="btn btn-danger"
+               href="@Url.Action("Delete", "LOAIMATHANGs", new { id = Model.MALOAI})"
+               onclick="return confirm('Bạn có muốn xóa loại mặt hàng này?')"
+               style="width: 70px;">
+                Xóa
+            </a>
+
+            <a class="btn btn-danger"
+               href="@Url.Action("Delete", "LOAIMATHANGs", new { id = Model.MALOAI})"
+               onclick="return confirm('Bạn có muốn xóa loại mặt hàng này?')"
+               style="width: 50px;">
+                <i class="fa fa-remove"></i>
+            </a>
+        }
+    </div>
+</div>

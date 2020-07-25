@@ -1,8 +1,9 @@
-﻿@model List<DoAnWeb.Models.MATHANG>
+﻿@model PagedList.IPagedList<DoAnWeb.Models.MATHANG>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    var grid = new WebGrid(Model, canPage: true, defaultSort: "MAMH", rowsPerPage: 15);
+    var grid = new WebGrid(Model, canPage: true, defaultSort: null, rowsPerPage: 6);
 }
 <style>
     a:hover {
@@ -15,7 +16,7 @@
 </style>
 @using (Html.BeginForm("Index", "QuanTri", FormMethod.Get))
 {
-    <div style="width: 30%; margin:auto; margin-top:50px;" class="row">
+    <div style="width: 35%; margin:auto; margin-top:50px;" class="row">
         <div class="col-lg-4">
             Tên mặt hàng
         </div>
@@ -41,22 +42,50 @@
                    onclick="location.href='@Url.Action("Index", "QuanTri/Index")'" />
         </div>
     </div>
-}
+
 <hr />
-<a href="@Url.Action("Create", "MATHANGs")" class="btn btn-success">Thêm mặt hàng</a>
-<div id="gridContent">
-    @ViewBag.TB
-    @grid.GetHtml(
-        tableStyle: "table table-bordered table-hover",
-        footerStyle: "grid-footer",
-        fillEmptyRows: false,
-        mode: WebGridPagerModes.Numeric,
-        alternatingRowStyle: "alternatingRowStyle",
-          columns: new[] {
-              grid.Column("ANH","Hình", format: @<text><a>
-        <img src="~/Images/Products/@item.ANH" width="70" height="60" />
-    </a></text>),
-grid.Column("TENMH","Tên", format:@<text><a href="@Url.Action("ProductDetails", "QuanTri", new{ id = item.MAMH})"><h5>@item.TENMH</h5></a></text>),
-grid.Column("DONGIA","Đơn giá", format:@<text> @item.DONGIA.ToString("#,##0")</text>),
-})
+<div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Mã</th>
+                <th>Hình</th>
+                <th>Tên</th>
+                <th>Đơn giá</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><a href="@Url.Action("ProductDetails", "QuanTri", new { id = item.MAMH })"><b class="id">#@item.MAMH</b></a></td>
+                    <td>
+                        <a href="@Url.Action("ProductDetails", "QuanTri", new { id = item.MAMH })">
+                            <img src="~/Images/Products/@item.ANH" width="70" height="60" />
+                        </a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("ProductDetails", "QuanTri", new { id = item.MAMH })"><h5>@item.TENMH</h5></a>
+                    </td>
+                    <td>
+                        @item.DONGIA.ToString("#,##0")
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Edit", "MATHANGs", new { id = item.MAMH })">Sửa thông tin</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="100" style="text-align: center; padding: 0;">@Html.PagedListPager(Model, page => Url.Action("Index", "QuanTri", new { page, name = ViewBag.NAME, MALOAI = ViewBag.LOAI }))</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+}
+<div class="btn-group" style="margin-bottom: 10px;">
+    <a href="@Url.Action("Create", "MATHANGs")" class="btn btn-success">Thêm mặt hàng</a>
+    <a href="@Url.Action("Create", "MATHANGs")" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span></a>
 </div>

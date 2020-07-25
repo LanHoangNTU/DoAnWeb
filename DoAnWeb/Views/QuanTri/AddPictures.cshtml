@@ -5,33 +5,59 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>AddPictures</h2>
+    <h2>Thêm</h2>
 
 @using (Html.BeginForm("AddPictures", "QuanTri", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     var mh = ViewBag.MAMH as DoAnWeb.Models.MATHANG;
     <div class="form-horizontal">
-        <h4>ANHMINHHOA</h4>
+        <h4>Ảnh minh họa</h4>
         <hr />
-
+        <div class="row">
+            <div class="col-lg-1">
+                <img src="~/Images/Products/@mh.ANH" style="height: 50px;" />
+            </div>
+            <div class="col-lg-9">
+                <a href="@Url.Action("ProductDetails", "QuanTri", new { id = mh.MAMH})">
+                    @mh.TENMH
+                </a>
+                <p>Ảnh: @mh.ANHMINHHOAs.Count</p>
+            </div>
+        </div>
+        <hr />
         <div class="form-group">
-            @Html.LabelFor(model => model.TENANH, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="file" style="height:30px;" name="Avatar" accept="image/*" required />
+                <div class="btn-group">
+                    <label for="src" class="photo btn btn-primary">Chọn ảnh...</label>
+                    <input type="submit" value="Lưu" class="btn btn-default" />
+                </div>
+                <br />
+
+                <input id="src" class="upload-photo" type="file" name="Avatar" accept="image/*" required />
+                <img id="target" style="border: 2px solid #337ab7; border-radius:5px; height: 400px; width: 600px;" /><br />
                 @Html.ValidationMessageFor(model => model.TENANH, "", new { @class = "text-danger" })
             </div>
         </div>
-        @Html.HiddenFor(model => model.MAMH, new { Value = mh.MAMH})
-        @Html.HiddenFor(model => model.MATHANG, new { Value = mh})
+        @Html.HiddenFor(model => model.MAMH, new { Value = mh.MAMH })
+        @Html.HiddenFor(model => model.MATHANG, new { Value = mh })
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+<script>
+    function showImg(src, target) {
+        var fr = new FileReader();
+        fr.onload = function (e) { target.src = this.result; };
+        src.addEventListener("change", function () {
+            fr.readAsDataURL(src.files[0]);
+        });
+    }
+
+    var src = document.getElementById("src");
+    var target = document.getElementById("target");
+    showImg(src, target);
+</script>

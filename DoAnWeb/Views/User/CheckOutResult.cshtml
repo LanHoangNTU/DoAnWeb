@@ -1,4 +1,4 @@
-﻿
+﻿@model DoAnWeb.Models.GIOHANG
 @{
     ViewBag.Title = "CheckOutResult";
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
@@ -6,16 +6,55 @@
 }
 
 
-<div align="center">
-    @if (success)
-    {
-        <h1>Thanh toán thành công!</h1>
-        <h1>Nhân viên giao hàng sẽ liên lạc vào số điện thoại của quý khách để xác thực</h1>
-    }
-    else
-    {
-        <h1>Giao dịch không thành công...</h1>
-    }
+    <div align="center">
+        @if (success)
+        {
+            <h1>Thanh toán thành công!</h1>
+            <h1>Nhân viên giao hàng sẽ liên lạc vào số điện thoại của quý khách để xác thực</h1>
+            {
+                long total = 0;
+                int i = 0;
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>Hình</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Đơn giá</th>
+                                    <th>Thành tiền</th>
+                                    <th>Số lượng</th>
+                                </tr>
+                                @foreach (var item in Model.CTGIOHANGs)
+                                {
+                                    <tr>
+                                        @{ var db = new DoAnWeb.Models.MTPKEntities1();
+                                            var mh = db.MATHANGs.Find(item.MAMH);
+                                        }
+                                        <td class="text-center"><img src="~/Images/Products/@mh.ANH" width="70" height="60" /> </td>
+                                        <td><a target="_blank" href="@Url.Action("Details", "User", new { id = item.MAMH })" style="font-size:medium;"> @mh.TENMH </a> </td>
+                                        <td> @mh.DONGIA.ToString("#,##0") </td>
+                                        <td> @item.THANHTIEN.ToString("#,##0") </td>
+                                        <td align="center"> <h5>@item.SOLUONG</h5></td>
+                                    </tr>
+                                    i++;
+                                    total += item.THANHTIEN;
+                                }
+                            </table>
 
-    <span><a href="@Url.Action("IndexLaptop", "User")" role="button" class="btn btn-success">Trờ về trang chủ</a></span>
-</div>
+                            <div>
+                                Tổng thành tiền:
+                                <span style="font-size:large;">@total.ToString("#,##0") VNĐ </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <h1>Giao dịch không thành công...</h1>
+        }
+
+        <span><a href="@Url.Action("IndexLaptop", "User")" role="button" class="btn btn-success">Trờ về trang chủ</a></span>
+    </div>

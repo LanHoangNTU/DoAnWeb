@@ -1,0 +1,35 @@
+﻿@model DoAnWeb.Models.PHUONGXA
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PHUONGXA</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TENPX)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TENPX)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QUANHUYEN.MATP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QUANHUYEN.MATP)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MAPX }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

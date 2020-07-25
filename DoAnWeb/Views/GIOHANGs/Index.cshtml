@@ -2,87 +2,57 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var grid = new WebGrid(Model, canPage: true, defaultSort: "MAGH", rowsPerPage: 15);
 }
 
-<h2>Index</h2>
+<style>
+    a:hover {
+        cursor: pointer;
+    }
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.TRANGTHAI)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NGAYXUAT)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TONGTIEN)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HOTENKH)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SDTKH)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GIOITINHKH)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LOINHAN)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DIACHI)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PHUONGTHUCTHANHTOAN.TENPTTT)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PHUONGXA.MAQH)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.TRANGTHAI)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NGAYXUAT)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TONGTIEN)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HOTENKH)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SDTKH)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GIOITINHKH)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LOINHAN)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DIACHI)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PHUONGTHUCTHANHTOAN.TENPTTT)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PHUONGXA.MAQH)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.MAGH }) |
-            @Html.ActionLink("Details", "Details", new { id=item.MAGH }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.MAGH })
-        </td>
-    </tr>
+    .alternatingRowStyle {
+        background-color: #fff98c;
+    }
+</style>
+@using (Html.BeginForm("Index", "GIOHANGs", FormMethod.Get))
+{
+    <div style="width: 30%; margin:auto; margin-top:50px;" class="row">
+        <div class="col-lg-4">
+            Mã hóa đơn
+        </div>
+        <div class="col-lg-8">
+            <input class="form-control" type="text" name="id" value="@ViewBag.MAGH" />
+        </div>
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
+            <input class="btn btn-primary"
+                   type="submit" name="submit" value="Tìm kiếm" style="width:100%; display:inline;" />
+        </div>
+        <div class="col-lg-4">
+            <input class="btn btn-primary"
+                   type="button" name="Nhapmoi" value="Nhập mới" style="width:100%; display:inline;"
+                   onclick="location.href='@Url.Action("Index", "GIOHANGs/Index")'" />
+        </div>
+    </div>
 }
-
-</table>
+<hr />
+<div id="gridContent">
+    @ViewBag.TB
+    @grid.GetHtml(
+        tableStyle: "table table-bordered table-hover",
+        footerStyle: "grid-footer",
+        fillEmptyRows: false,
+        mode: WebGridPagerModes.Numeric,
+        alternatingRowStyle: "alternatingRowStyle",
+          columns: new[] {
+grid.Column("MAGH","Mã", format:@<text><h5>@item.MAGH</h5></text>),
+grid.Column("HOTENKH","Tên khách hàng", format:@<text><h5>@item.HOTENKH</h5></text>),
+grid.Column("SDTKH","Số điện thoại", format:@<text><h5>@item.SDTKH</h5></text>),
+grid.Column("TONGTIEN","Tổng tiền", format:@<text> @item.TONGTIEN.ToString("#,##0")</text>),
+grid.Column("DIACHI","Địa chỉ"),
+grid.Column("Thao tác", format:@<text><div class="btn-group">
+        @Html.ActionLink("Xem chi tiết", "Details", "GIOHANGs", new { id = item.MAGH}, new{ Class = "btn btn-success"})
+    </div></text>),
+})
+</div>

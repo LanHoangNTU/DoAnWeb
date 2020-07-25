@@ -110,8 +110,8 @@
         </div>
         <hr />
         <div class="form-group">
-            @Html.LabelFor(model => model.GHICHU, "Ghi chú", htmlAttributes: new { Class = "form-control" })
-            @Html.TextAreaFor(model => model.GHICHU, htmlAttributes: new { Class = "form-control", placeholder = "Ghi chú..." })
+            @Html.LabelFor(model => model.GHICHU, "Ghi chú", htmlAttributes: new { Class = "label-control" })
+            @Html.TextBoxFor(model => model.GHICHU, htmlAttributes: new { Class = "form-control", placeholder = "Ghi chú..." })
             @Html.ValidationMessageFor(model => model.GHICHU, "", new { @class = "text-danger" })
         </div>
         <hr />

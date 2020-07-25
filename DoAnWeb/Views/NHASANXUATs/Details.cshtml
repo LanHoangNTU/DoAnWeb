@@ -1,0 +1,91 @@
+﻿@model DoAnWeb.Models.NHASANXUAT
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Chi tiết nhà sản xuất</h2>
+<hr />
+<div class="row">
+    <div class="col-lg-6">
+        <h4>@Html.DisplayNameFor(model => model.LOGO)</h4>
+        <img src="~/Images/Brand/@Model.LOGO" width="150" />
+        <hr />
+        <div class="row">
+            <div class="col-lg-6">
+                <h4><b>@Html.DisplayNameFor(model => model.MANSX)</b></h4>
+                <h4><b>@Html.DisplayNameFor(model => model.TENNSX)</b></h4>
+            </div>
+
+            <div class="col-lg-6">
+                <h4><b class="id">#@Html.DisplayFor(model => model.MANSX)</b></h4>
+                <h4>@Html.DisplayFor(model => model.TENNSX)</h4>
+            </div>
+        </div><hr />
+        <div class="btn-group"
+             onclick="location.href = '@Url.Action("Edit", "NHASANXUATs", new { id = Model.MANSX})'">
+            <button class="btn btn-primary" style="width: 70px;">
+                Sửa
+            </button>
+
+            <button class="btn btn-primary" style="width: 50px;">
+                <i class="fa fa-edit"></i>
+            </button>
+        </div><br /><br />
+        <div class="btn-group">
+            @if (Model.MATHANGs.Count > 0)
+            {
+                <button class="btn btn-danger"
+                        disabled
+                        style="width: 70px;">
+                    Xóa
+                </button>
+
+                <button class="btn btn-danger"
+                        disabled
+                        style="width: 50px;">
+                    <i class="fa fa-remove"></i>
+                </button>
+            }
+            else
+            {
+                <a class="btn btn-danger"
+                   href="@Url.Action("Delete", "NHASANXUATs", new { id = Model.MANSX})"
+                   onclick="return confirm('Bạn có muốn xóa nhà sản xuất này?')"
+                   style="width: 70px;">
+                    Xóa
+                </a>
+
+                <a class="btn btn-danger"
+                   href="@Url.Action("Delete", "NHASANXUATs", new { id = Model.MANSX})"
+                   onclick="return confirm('Bạn có muốn xóa nhà sản xuất này?')"
+                   style="width: 50px;">
+                    <i class="fa fa-remove"></i>
+                </a>
+            }
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Loại mặt hàng</th>
+                    <th>Số lượng</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ 
+                    var list = Model.MATHANGs.GroupBy(m => m.LOAIMATHANG);
+                    foreach (var item in list)
+                    {
+                        <tr>
+                            <td>@item.Key.TENLOAI</td>
+                            <td>@item.Key.MATHANGs.Count</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

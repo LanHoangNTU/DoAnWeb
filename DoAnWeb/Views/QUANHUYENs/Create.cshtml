@@ -1,0 +1,48 @@
+﻿@model DoAnWeb.Models.QUANHUYEN
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Thêm Quận / Huyện</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        <div class="form-group">
+            @Html.LabelFor(model => model.MAQH, "Mã Quận / Huyện", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" class="form-control" value="@ViewBag.MAQH" disabled />
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.THANHPHO.TENTP, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" class="form-control" value="@((ViewBag.MATP as DoAnWeb.Models.THANHPHO).TENTP)" disabled />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TENQH, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TENQH, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TENQH, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @Html.HiddenFor(model => model.MATP, new { Value = (ViewBag.MATP as DoAnWeb.Models.THANHPHO).MATP})
+        @Html.HiddenFor(model => model.THANHPHO, new { Value = ViewBag.MATP as DoAnWeb.Models.THANHPHO})
+        @Html.HiddenFor(model => model.MAQH)
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Thêm" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

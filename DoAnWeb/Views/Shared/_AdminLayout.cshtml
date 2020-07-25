@@ -1,4 +1,5 @@
 ﻿<!DOCTYPE html>
+<IFRAME ID="KeepAliveFrame" src="KeepSessionAlive.aspx" frameBorder="0" width="0" height="0" runat="server"></IFRAME>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -7,12 +8,28 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link rel="stylesheet" href="/Content/chart.css">
+    <link rel="stylesheet" href="~/Content/floating.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script type="text/javascript" src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
     <script>tinymce.init({ selector: 'textarea' });</script>
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            min-height: 786px;
+            overflow-x: hidden;
+        }
+
+
+        thead {
+            background-color: #212529;
+            color: white;
+        }
+
         .photo {
             cursor: pointer;
             /* Style as you please, it will become the visible UI component. */
@@ -30,31 +47,118 @@
             align-items: center;
             height: 100%;
         }
+
+        .full-height {
+            height: 100%;
+        }
+
+        .sidenav {
+            height: 100%; /* Full-height: remove this if you want "auto" height */
+            width: 160px; /* Set the width of the sidebar */
+            position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+            z-index: 1; /* Stay on top */
+            top: 0; /* Stay at the top */
+            left: 0;
+            background-color: #111; /* Black */
+            overflow-x: hidden; /* Disable horizontal scroll */
+            padding-top: 20px;
+        }
+        .sidenav a {
+          padding: 6px 8px 6px 16px;
+          text-decoration: none;
+          font-size: 1rem;
+          color: #818181;
+          display: block;
+        }
+
+        /* When you mouse over the navigation links, change their color */
+        .sidenav a:hover {
+          color: #f1f1f1;
+        }
+
+        /* Style page content */
+        .main {
+          margin-left: 160px; /* Same as the width of the sidebar */
+          padding: 0px 10px;
+        }
+
+
+        .pagination{
+            margin-top: 5px;
+            margin-bottom: 0px;
+        }
+
+        .id{
+            color: red;
+        }
+
+        #header {
+            padding-top: 20px;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("MTPK ASP", "IndexLaptop", "User", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Các mặt hàng", "Index", "QuanTri")</li>
-                    <li>@Html.ActionLink("Xác nhận hóa đơn", "Bills", "QuanTri")</li>
-                </ul>
+    <div class="row full-height">
+        <div class="col-lg-2 full-height" style="font-size: 1rem;">
+            <div class="sidenav">
+                <a href="@Url.Action("Home", "QuanTri")">
+                    <i class="fa fa-home fa-2x center"></i>
+                    <br />
+                    <b class="center">HOME</b>
+                </a>
+                <hr style="width: 40%;" />
+                <a href="@Url.Action("Logout", "QuanTri")">
+                    <i class="fa fa-sign-out fa-2x center"></i>
+                    <br />
+                    <b class="center">ĐĂNG XUẤT</b>
+                </a>
+                <hr />
+                <a href="@Url.Action("Index", "QuanTri")">
+                    <i class="fa fa-laptop fa-2x center"></i>
+                    <br />
+                    <b class="center">MẶT HÀNG</b>
+                </a>
+                <a href="@Url.Action("Bills", "QuanTri")">
+                    <i class="fa fa-shopping-bag fa-2x center"></i>
+                    <br />
+                    <b class="center">XÁC NHẬN ĐƠN HÀNG</b>
+                </a>
+                <a href="@Url.Action("Index", "GIOHANGs")">
+                    <i class="fa fa-cart-arrow-down fa-2x center"></i>
+                    <br />
+                    <b class="center">ĐƠN HÀNG</b>
+                </a>
+                <a href="@Url.Action("Index", "LOAIMATHANGs")">
+                    <i class="fa fa-cubes fa-2x center"></i>
+                    <br />
+                    <b class="center">LOẠI MẶT HÀNG</b>
+                </a>
+                <a href="@Url.Action("Index", "THANHPHOes")">
+                    <i class="fa fa-truck fa-2x center"></i>
+                    <br />
+                    <b class="center">KHU VỰC GIAO HÀNG</b>
+                </a>
+                <a href="@Url.Action("Index", "NHASANXUATs")">
+                    <i class="fa fa-black-tie fa-2x center"></i>
+                    <br />
+                    <b class="center">NHÀ SẢN XUẤT</b>
+                </a>
+                <a href="@Url.Action("Summary", "QuanTri")">
+                    <i class="fa fa-line-chart fa-2x center"></i>
+                    <br />
+                    <b class="center">THỐNG KÊ</b>
+                </a>
             </div>
         </div>
+        <div class="col-lg-10" style="
+                overflow-y: hidden;
+                min-height: 768px;">
+            @RenderBody()
+
+        </div>
     </div>
-    <div style="width:90%; margin:auto;">
-        @RenderBody()
-    </div>
-    <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

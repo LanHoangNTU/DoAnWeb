@@ -1,0 +1,56 @@
+﻿@model DoAnWeb.Models.NHASANXUAT
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@using (Html.BeginForm("Create", "NHASANXUATs", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Thêm mặt hàng</h4>
+        <hr />
+        <h4>Mã: <b class="id">#@ViewBag.NSX</b></h4>
+        <hr />
+        <div class="row">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group col-lg-4">
+                <label for="src" class="photo btn btn-primary">Chọn ảnh...</label><br />
+                <input id="src" class="upload-photo" type="file" style="height:30px;" name="Avatar" accept="image/*" required/>
+                <img id="target" style="border: 2px solid #337ab7; border-radius:5px; height: 150px; width: 225px;" /><br />
+                @Html.ValidationMessageFor(model => model.LOGO, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group col-lg-8">
+                <br />
+                <div class="col-md-10">
+                    @Html.LabelFor(model => model.TENNSX, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group" style="max-width: 250px;">
+                        @Html.EditorFor(model => model.TENNSX, new { htmlAttributes = new { @class = "form-control" } })
+                        <div class="input-group-btn">
+                            <input type="submit" value="Lưu" class="btn btn-default" />
+                        </div>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.TENNSX, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+}
+
+<script>
+    function showImg(src, target) {
+        var fr = new FileReader();
+        fr.onload = function (e) { target.src = this.result; };
+        src.addEventListener("change", function () {
+            fr.readAsDataURL(src.files[0]);
+        });
+    }
+
+    var src = document.getElementById("src");
+    var target = document.getElementById("target");
+    showImg(src, target);
+</script>

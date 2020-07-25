@@ -2,98 +2,157 @@
 
 @{
     ViewBag.Title = "Details";
-    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Details</h2>
+<style>
+    .p-link:hover{
+        cursor: pointer;
+    }
+</style>
 
-<div>
-    <h4>GIOHANG</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.TRANGTHAI)
-        </dt>
+<hr />
+<h3 align="center">Mã hóa đơn: <small><u>@Model.MAGH</u></small></h3>
+<hr />
+<div class="row">
+    <div class="col-lg-6">
+        @{var grid = new WebGrid(Model.CTGIOHANGs, canPage: true, defaultSort: "MAGH", rowsPerPage: 15); }
+        @grid.GetHtml(
+        tableStyle: "table table-bordered table-hover",
+        footerStyle: "grid-footer",
+        fillEmptyRows: false,
+        mode: WebGridPagerModes.All,
+        alternatingRowStyle: "alternatingRowStyle",
+                      columns: new[] {
+            grid.Column("MATHANG.ANH","Ảnh", format:@<text>
+    <img src="~/Images/Products/@item.MATHANG.ANH" style="width:150px;" />
+            </text>),
+grid.Column("MATHANG.TENMH", "Tên", format: @<text><a class="p-link" src="@Url.Action("ProductDetails", "QuanTri", new{ id = item.MAMH})">
+                    @if (item.MATHANG.TENMH.Length > 15)
+                {
+                    @(item.MATHANG.TENMH.Substring(0, 15) + "...")
+                }
+                else
+                {
+                    @item.MATHANG.TENMH
+                }
+                </a></text>),
+grid.Column("THANHTIEN", "Thành tiền", format: (@item) => item.THANHTIEN.ToString("###,0")),
+})
+    </div>
+    <div class="col-lg-6">
+        <table class="table table-bordered col-lg-12">
+            <tr>
+                <th colspan="2" style="background-color: #212529; color: white;">
+                    Thông tin hóa đơn
+                </th>
+            </tr>
+            <tr>
+                <td scope="col">
+                    Ngày xuất
+                </td>
+                <td>
+                    @{ var viVN = new System.Globalization.CultureInfo("vi-VN");}
+                    @Model.NGAYXUAT.ToString("dddd, 'Ngày' dd, MMMM, yyyy", viVN)
+                </td>
+            </tr>
+            <tr>
+                <td scope="col">
+                    Trạng thái
+                </td>
+                <td style="color: @(Model.TRANGTHAI?"green":"red")">
+                    <b>@(Model.TRANGTHAI?"Đã thanh toán":"Chưa thanh toán")</b>
+                </td>
+            </tr>
+            <tr>
+                <td scope="col">
+                    Phương thức thanh toán
+                </td>
+                <td>
+                    @Model.PHUONGTHUCTHANHTOAN.TENPTTT
+                </td>
+            </tr>
+            <tr>
+                <td scope="col">
+                    Tổng tiền
+                </td>
+                <td  style="color:red;">
+                    <b>@Model.TONGTIEN.ToString("###,0")</b>
+                </td>
+            </tr>
+        </table>
 
-        <dd>
-            @Html.DisplayFor(model => model.TRANGTHAI)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.NGAYXUAT)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NGAYXUAT)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TONGTIEN)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TONGTIEN)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.HOTENKH)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.HOTENKH)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SDTKH)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SDTKH)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.GIOITINHKH)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.GIOITINHKH)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LOINHAN)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LOINHAN)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DIACHI)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DIACHI)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PHUONGTHUCTHANHTOAN.TENPTTT)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PHUONGTHUCTHANHTOAN.TENPTTT)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PHUONGXA.MAQH)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PHUONGXA.MAQH)
-        </dd>
-
-    </dl>
+        <table class="table table-bordered col-lg-12">
+            <tr>
+                <th colspan="2" style="background-color: #212529; color: white;">
+                    Thông tin khách hàng
+                </th>
+            </tr>
+            <tr>
+                <td scope="col">
+                    Tên khách hàng
+                </td>
+                <td>
+                    @Model.HOTENKH
+                </td>
+            </tr>
+            <tr>
+                <td scope="col">
+                    Số điện thoại
+                </td>
+                <td>
+                    @Model.SDTKH
+                </td>
+            </tr>
+            <tr>
+                <td scope="col">
+                    Giới tính
+                </td>
+                <td>
+                    @(Model.GIOITINHKH?"Nam":"Nữ")
+                </td>
+            </tr>
+            <tr>
+                <td scope="col">
+                    Thành phố
+                </td>
+                <td>
+                    @Model.PHUONGXA.QUANHUYEN.THANHPHO.TENTP
+                </td>
+            </tr>
+            <tr>
+                <td scope="col">
+                    Quận - Huyện
+                </td>
+                <td>
+                    @Model.PHUONGXA.QUANHUYEN.TENQH
+                </td>
+            </tr>
+            <tr>
+                <td scope="col">
+                    Phường - Xã
+                </td>
+                <td>
+                    @Model.PHUONGXA.TENPX
+                </td>
+            </tr>
+            <tr>
+                <td scope="col">
+                    Địa chỉ
+                </td>
+                <td>
+                    @Model.DIACHI
+                </td>
+            </tr>
+            <tr>
+                <td scope="col">
+                   Lời nhắn
+                </td>
+                <td>
+                    @Model.LOINHAN
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.MAGH }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+

@@ -8,7 +8,7 @@
     SelectList list2 = ViewBag.QH;
     SelectList list3 = ViewBag.MAPX;
 
-    var list = Session["giohang"] as List<DoAnWeb.Models.CTGIOHANG>;
+    var list = Session["giohang"] as List<DoAnWeb.Models.CTMH>;
 }
 
 <div style="width:60%; margin:auto; border:2px dashed #808080; border-radius:10px; padding: 10px;"><style>
@@ -78,7 +78,7 @@
         -moz-appearance: textfield;
     }
 </style>
-    @using (Html.BeginForm("ConfirmBuy", "User", FormMethod.Post, new { id = "demoForm", name = "demoForm" }))
+    @using (Html.BeginForm("ConfirmBuy", "User", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
 
@@ -123,7 +123,7 @@
                     </div>
 
                 </div>
-                
+
                 @Html.HiddenFor(m => m.TONGTIEN, new { Value = total });
             </div>
         }
@@ -131,10 +131,23 @@
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+    <div class="row">
+        <div class="col-lg-6">
+            @Html.Label("Tỉnh / Thành phố")
+            @Html.TextBox("tp", ViewBag.TENTP as string, new { @class = "form-control", @disabled = "" })
+            @Html.Hidden("tp", ViewBag.TENTP as string)
+        </div>
+        <div class="col-lg-6">
+            @Html.Label("Quận / Huyện")
+            @Html.TextBox("qh", ViewBag.TENQH as string, new { @class = "form-control", @disabled=""})
+            @Html.Hidden("qh", ViewBag.TENQH as string)
+        </div>
+    </div>
+
     <div class="form-group row">
         <div class="col-md-6">
             @Html.LabelFor(model => model.MATP, "Phường / Xã", htmlAttributes: new { @class = "control-label" })<br />
-            @Html.DropDownListFor(m => m.MATP, null, htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownListFor(m => m.MATP, null, htmlAttributes: new { @class = "form-control", @required = "" })
             @Html.ValidationMessageFor(model => model.MATP, "", new { @class = "text-danger" })
         </div>
         <div class="col-md-6">
