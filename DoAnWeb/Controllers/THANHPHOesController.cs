@@ -93,6 +93,7 @@ namespace DoAnWeb.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.THANHPHO = db.THANHPHOes.OrderBy(m => m.TENTP).ToList();
             return View(tHANHPHO);
         }
 
@@ -109,6 +110,7 @@ namespace DoAnWeb.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.THANHPHO = db.THANHPHOes.OrderBy(m => m.TENTP).ToList();
             return View(tHANHPHO);
         }
 

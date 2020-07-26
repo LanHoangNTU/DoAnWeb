@@ -71,7 +71,7 @@ namespace DoAnWeb.Controllers
                 qUANHUYEN.MAQH = GetNewId();
                 db.QUANHUYENs.Add(qUANHUYEN);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = qUANHUYEN.MAQH});
             }
             ViewBag.MATP = db.THANHPHOes.Find(qUANHUYEN.MATP);
             ViewBag.MAQH = GetNewId();
@@ -95,6 +95,7 @@ namespace DoAnWeb.Controllers
                 return HttpNotFound();
             }
             ViewBag.MATP = db.THANHPHOes.Find(id);
+            ViewBag.THANHPHO = db.QUANHUYENs.Where(m => m.MATP.Equals(qUANHUYEN.MATP)).ToList();
             return View(qUANHUYEN);
         }
 
@@ -109,36 +110,21 @@ namespace DoAnWeb.Controllers
             {
                 db.Entry(qUANHUYEN).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Edit", "THANHPHOes", new { id = qUANHUYEN.MATP});
+                return RedirectToAction("Details", "THANHPHOes", new { id = qUANHUYEN.MATP});
             }
             ViewBag.MATP = db.THANHPHOes.Find(qUANHUYEN.MATP);
+            ViewBag.THANHPHO = db.QUANHUYENs.Where(m => m.MATP.Equals(qUANHUYEN.MATP)).ToList();
             return View(qUANHUYEN);
         }
 
         // GET: QUANHUYENs/Delete/5
         public ActionResult Delete(string id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             QUANHUYEN qUANHUYEN = db.QUANHUYENs.Find(id);
-            if (qUANHUYEN == null)
-            {
-                return HttpNotFound();
-            }
-            return View(qUANHUYEN);
-        }
-
-        // POST: QUANHUYENs/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
-        {
-            QUANHUYEN qUANHUYEN = db.QUANHUYENs.Find(id);
+            var matp = qUANHUYEN.MATP;
             db.QUANHUYENs.Remove(qUANHUYEN);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "THANHPHOes", new { id = matp });
         }
 
         protected override void Dispose(bool disposing)

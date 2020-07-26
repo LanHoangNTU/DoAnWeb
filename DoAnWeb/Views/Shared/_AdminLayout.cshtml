@@ -9,6 +9,7 @@
     @Scripts.Render("~/bundles/modernizr")
     <link rel="stylesheet" href="/Content/chart.css">
     <link rel="stylesheet" href="~/Content/floating.css">
+    <link rel="stylesheet" href="~/Content/floating_buttons.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -28,6 +29,14 @@
         thead {
             background-color: #212529;
             color: white;
+        }
+
+        thead tr th a{
+            color: white;
+        }
+
+        thead tr th a:hover{
+            color: rgba(0, 255, 255, 0.95);
         }
 
         .photo {
@@ -152,6 +161,47 @@
                 </a>
             </div>
         </div>
+        <a href="#" class="float" id="menu-share">
+            <i class="fa fa-share my-float"></i>
+        </a>
+        <ul class="flob">
+            <li>
+                <a href="#">
+                    <i class="fa fa-laptop my-float"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-shopping-bag my-float"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-cart-arrow-down my-float"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-cubes my-float"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-truck my-float"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-black-tie my-float"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-line-chart my-float"></i>
+                </a>
+            </li>
+        </ul>
+
         <div class="col-lg-10" style="
                 overflow-y: hidden;
                 min-height: 768px;">

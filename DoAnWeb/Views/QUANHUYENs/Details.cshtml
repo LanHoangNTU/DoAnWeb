@@ -3,33 +3,107 @@
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var grid = new WebGrid(Model.PHUONGXAs, canPage: true, defaultSort: "GIOHANGs.Count", rowsPerPage: 15);
 }
 
-<h2>Details</h2>
+<style>
+
+    .i-1 {
+        width: 120px;
+    }
+
+    .i-2 {
+        width: 50px;
+    }
+
+    .btn-group {
+        margin-bottom: 5px;
+    }
+</style>
 
 <div>
-    <h4>QUANHUYEN</h4>
+    <h3>Chi tiết</h3>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.TENQH)
-        </dt>
+    <div class="row">
+        <div class="col-lg-6 row">
+            <div class="col-lg-6">
+                <h3>Mã: </h3>
+                <h3>Tên thành phố: </h3>
+                <h3>Tên quận huyện: </h3>
+            </div>
+            <div class="col-lg-6">
+                <h3><b class="id">#@Model.MAQH</b></h3>
+                <h3>@Model.THANHPHO.TENTP</h3>
+                <h3>@Model.TENQH</h3>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="btn-group"
+                 onclick="location.href = '@Url.Action("Edit", "QUANHUYENs", new{ id = Model.MAQH})'">
+                <button class="btn btn-warning i-1">
+                    Sửa
+                </button>
+                <button class="btn btn-warning i-2">
+                    <i class="fa fa-edit"></i>
+                </button>
+            </div><br />
+            @if (Model.PHUONGXAs.Count > 0)
+            {
+                <div class="btn-group">
+                    <button class="btn btn-danger i-1" disabled>
+                        Xóa
+                    </button>
+                    <button class="btn btn-danger i-2" disabled>
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </div>
+            }
+            else
+            {
+                <div class="btn-group">
+                    @Html.ActionLink("Xóa", "Delete", new { id = Model.MAQH }, new { onclick = "return confirm('Bạn có muốn xóa quận / huyện này?');", Class = "btn btn-danger i-1" })
 
-        <dd>
-            @Html.DisplayFor(model => model.TENQH)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.THANHPHO.TENTP)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.THANHPHO.TENTP)
-        </dd>
-
-    </dl>
+                    <a href="@Url.Action("Delete", "QUANHUYENs", new { id = Model.MAQH})" class="btn btn-danger i-2"
+                       onclick="return confirm('Bạn có muốn xóa quận / huyện này?');">
+                        <i class="fa fa-remove"></i>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.MAQH }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<hr />
+<div style="width: 100%;">
+    <h3>Các Phường xã thuộc Quận / Huyện <b>@Model.TENQH</b></h3>
+    <div class="btn-group">
+        <input type="button" class="btn btn-success" value="Thêm Phường / Xã"
+               onclick="location.href = '@Url.Action("Create", "PHUONGXAs", new { id = Model.MAQH})'" />
+        <button class="btn btn-success">
+            <i class="glyphicon glyphicon-plus"></i>
+        </button>
+    </div>
+</div>
+@if (Model.PHUONGXAs.Count <= 0)
+{
+    <h3>Còn trống</h3>
+}
+else
+{
+    <div id="gridContent">
+        @ViewBag.TB
+        @grid.GetHtml(
+            tableStyle: "table table-bordered table-hover",
+            footerStyle: "table-pager",
+            fillEmptyRows: false,
+            mode: WebGridPagerModes.All,
+            alternatingRowStyle: "alternatingRowStyle",
+              columns: new[] {
+    grid.Column("MAPX","Mã", format:@<text><h5>@item.MAPX</h5></text>),
+grid.Column("TENPX","Tên", format:@<text> <h5 style="color: @(item.GIOHANGs.Count>0?"red":"green")">@item.TENPX</h5></text>),
+grid.Column("GIOHANGs.Count","Số Giỏ hàng", format:@<text> <h5 style="color: @(item.GIOHANGs.Count>0?"red":"green")">@item.GIOHANGs.Count</h5></text>),
+grid.Column("","", format:@<text>
+    <a href="@Url.Action("Details", "PHUONGXAs", new{ id = item.MAPX})">Xem chi tiết</a>
+</text>),
+})
+    </div>
+}

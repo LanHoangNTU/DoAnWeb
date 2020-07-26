@@ -15,7 +15,8 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.MATP)
 
-        <div class="">
+        <div class="form-group">
+            <h4>Mã: <b class="id">#@Model.MATP</b></h4>
             @Html.LabelFor(model => model.TENTP, "Tên thành phố", htmlAttributes: new { @class = "control-label" })
             <div class="input-group" style="width:30%;">
                 @Html.EditorFor(model => model.TENTP, new { htmlAttributes = new { @class = "form-control", @style = "max-width:100%;" } })
@@ -27,37 +28,24 @@
 
             @Html.ValidationMessageFor(model => model.TENTP, "", new { @class = "text-danger" })
         </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-            </div>
+        <hr>
+        <div class="">
+            <h3>Các thành phố đã có</h3>
+            @if (ViewBag.THANHPHO != null)
+            {
+                <ul>
+                    @foreach (var item in (ViewBag.THANHPHO as List<DoAnWeb.Models.THANHPHO>).Where(m => m != Model))
+                    {
+                        <li>@item.TENTP</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <h3>Còn trống</h3>
+                <a href="@Url.Action("Create", "THANHPHOes")">Thêm thành phố</a>
+            }
         </div>
     </div>
 }
-<hr />
-<div style="width: 100%;">
-    <h3>Các Quận / Huyện thuộc Thành phố / Tỉnh <b>@Model.TENTP</b></h3>
-    <input type="button" class="btn btn-success" value="Thêm Quận / huyện"
-           onclick="location.href = '@Url.Action("Create", "QUANHUYENs", new { id = Model.MATP})'" />
-</div>
-<div id="gridContent">
-    @ViewBag.TB
-    @grid.GetHtml(
-        tableStyle: "table table-bordered table-hover",
-        footerStyle: "table-pager",
-        fillEmptyRows: false,
-        mode: WebGridPagerModes.All,
-        alternatingRowStyle: "alternatingRowStyle",
-          columns: new[] {
-grid.Column("MAQH","Mã", format:@<text><h5>@item.MAQH</h5></text>),
-grid.Column("TENQH","Tên", format:@<text> <h5 style="color: @(item.PHUONGXAs.Count>0?"green":"red")">@item.TENQH</h5></text>),
-grid.Column("PHUONGXAs.Count","Số Phường / Xã", format:@<text> <h5 style="color: @(item.PHUONGXAs.Count>0?"green":"red")">@item.PHUONGXAs.Count</h5></text>),
-grid.Column("","", format:@<text>
-    <span class="btn-group">
-        <a class="btn btn-primary" href="@Url.Action("Edit", "QUANHUYENs", new{ id = item.MAQH})">Chỉnh sửa</a>
-        <button class="btn btn-danger" onclick="location.href='@Url.Action("Delete", "QUANHUYENs", new{ id = item.MAQH})'" @(item.PHUONGXAs.Count>0?"disabled":"")>Xóa</button>
-    </span>
-</text>),
-})
-</div>
 

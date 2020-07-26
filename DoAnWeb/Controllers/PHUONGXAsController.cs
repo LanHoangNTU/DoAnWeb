@@ -69,7 +69,7 @@ namespace DoAnWeb.Controllers
                 pHUONGXA.MAPX = GetNewId();
                 db.PHUONGXAs.Add(pHUONGXA);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = pHUONGXA.MAPX});
             }
             ViewBag.MAPX = GetNewId();
             ViewBag.MAQH = db.QUANHUYENs.Find(pHUONGXA.MAQH);
@@ -107,7 +107,7 @@ namespace DoAnWeb.Controllers
             {
                 db.Entry(pHUONGXA).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "QUANHUYENs", new { id = pHUONGXA.MAQH});
             }
             ViewBag.MAQH = db.QUANHUYENs.Find(pHUONGXA.MAQH);
             return View(pHUONGXA);
@@ -116,27 +116,11 @@ namespace DoAnWeb.Controllers
         // GET: PHUONGXAs/Delete/5
         public ActionResult Delete(string id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             PHUONGXA pHUONGXA = db.PHUONGXAs.Find(id);
-            if (pHUONGXA == null)
-            {
-                return HttpNotFound();
-            }
-            return View(pHUONGXA);
-        }
-
-        // POST: PHUONGXAs/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
-        {
-            PHUONGXA pHUONGXA = db.PHUONGXAs.Find(id);
+            var maqh = pHUONGXA.MAQH;
             db.PHUONGXAs.Remove(pHUONGXA);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "QUANHUYENs", new { id = maqh });
         }
 
         protected override void Dispose(bool disposing)

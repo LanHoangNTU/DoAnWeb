@@ -204,6 +204,7 @@
     <Compile Include="Models\PHUONGXA.cs">
       <DependentUpon>MTPK.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PlaceContext.cs" />
     <Compile Include="Models\QUANHUYEN.cs">
       <DependentUpon>MTPK.tt</DependentUpon>
     </Compile>
@@ -228,6 +229,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\chart.css" />
     <Content Include="Content\floating.css" />
+    <Content Include="Content\floating_buttons.css" />
     <Content Include="Content\hover-btns.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\star.css" />

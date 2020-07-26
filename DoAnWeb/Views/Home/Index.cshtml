@@ -1,97 +1,82 @@
-﻿@model PagedList.IPagedList<DoAnWeb.Models.MATHANG>
-@using PagedList.Mvc;
-
+﻿
 @{
-    ViewBag.Title = "Home Page";
-    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<html>
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <style>
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            url: "ReturnJSONDataToAJax",
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            datatype: JSON,
+            success: function (result) {
+                $(result).each(function () {
+                    $("#dropdownCountry").append($("<option></option>").val(this.Id).html(this.Name));
+                });
+            },
+            error: function (data) { }
+        }); 
 
-        a div:hover img {
-            position: relative;
-            top: -5px;
-        }
+        $('#dropdownCountry').change(function () {
 
-        a div:hover div {
-            color: dodgerblue;
-        }
+            $('#dropdownState').empty();
 
-        a .active {
-            border: 1px solid #ff6a00;
-            height: 50px;
-        }
+            $.ajax({
+                type: "GET",
+                url: "GetQuanHuyensByThanhPhoId",
+                datatype: "Json",
+                data: { id: $('#dropdownCountry').val() },
+                success: function (data) {
+                    $.each(data, function (index, value) {
+                        $('#dropdownState').append('<option value="' + value.Id + '">' + value.Name + '</option>');
+                    });
+                }
+            });
+        });
 
-        .normal {
-            border: 1px solid #cbcbcb;
-            height: 50px;
-        }
-    </style>
-</head>
-<body>
-    @using (Html.BeginForm("IndexLaptop", "User", FormMethod.Get))
-    {
-        <div style="width: 30%; margin:auto; margin-top:50px;" class="row">
-            <div class="col-lg-8">
-                @Html.TextBox("SearchString", null, htmlAttributes: new { Class = "form-control", placeholder = "Tìm kiếm..." })
-            </div>
-            <div class="col-lg-4">
-                <input class="btn btn-primary"
-                       type="submit" name="Nhapmoi" value="Tìm kiếm" style="width:100%; display:inline;" />
-            </div>
-        </div>
-    }
-    <div style="width:80%; margin:auto;">
-        <hr />
-        @{
-            string active = ViewBag.NSX;
-            var db = new DoAnWeb.Models.MTPKEntities1();
-            var list = db.NHASANXUATs;
-            <div class="row">
-                @foreach (var item in list)
-                {<a href="@Url.Action("IndexLaptop", "User", new { page = 1, nsx = item.MANSX})">
-                        @if (item.MANSX.Equals(active))
-                        {
-                            <div class="col-lg-1 center active">@item.TENNSX</div>
-                        }
-                        else
-                        {
-                            <div class="col-lg-1 center normal">@item.TENNSX</div>
-                        }
-                    </a>}
-            </div>
-        }
-        <hr />
-        <div class="row">
-            @foreach (var item in Model)
-            {
-                <a style="text-decoration:none; color: black;" href="@Url.Action("Details", "User", new { id = item.MAMH})">
-                    <div class="col-lg-2" style="
-            width: 20%;
-            border: solid 2px #808080;
-            padding-top: 1em;
-            height: 350px;
-            border-radius: 2px;">
-                        <img style="width: 100%;" src="/Images/Products/@Html.DisplayFor(modelItem => item.ANH)" />
-                        <hr />
-                        <div style="margin-left: 1em; margin-right: 1em;">
-                            @Html.DisplayFor(modelItem => item.TENMH)
-                            <h4 style="color: red">
-                                @item.DONGIA.ToString("###,0") VNĐ
-                            </h4>
-                        </div>
-                    </div>
-                </a>
-            }
+        $('#dropdownState').change(function () {
+            $('#dropdownState2').empty();
+            $.ajax({
+                type: "POST",
+                url: "GetPXByPHId",
+                datatype: "Json",
+                data: { id: $('#dropdownState').val() },
+                success: function (data) {
+                    $.each(data, function (index, value) {
+                        $('#dropdownState2').append('<option value="' + value.Id + '">' + value.Name + '</option>');
+                    });
+                }
+            });
+        });
 
-        </div>
+        $('#dropdownCountry').change(function () {
 
-        <div align="center">@Html.PagedListPager(Model, page => Url.Action("IndexLaptop", new { page, searchString = ViewBag.Search }))</div>
-    </div>
-</body>
-</html>
+            $('#dropdownState2').empty();
+
+            $.ajax({
+                type: "POST",
+                url: "GetPX",
+                datatype: "Json",
+                data: { id: $('#dropdownCountry').val() },
+                success: function (data) {
+                    $.each(data, function (index, value) {
+                        $('#dropdownState2').append('<option value="' + value.Id + '">' + value.Name + '</option>');
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+<div>
+    @Html.DropDownList("dropdownCountry", new SelectList(string.Empty, "Value", "Text"), "Please select a country", new { @style = "width:250px;" })
+</div>
+<div style="margin-top:50px;">
+    @Html.DropDownList("dropdownState", new SelectList(string.Empty, "Value", "Text"), "Please select a state", new { @style = "width:250px;" })
+</div>
+<div style="margin-top:50px;">
+    @Html.DropDownList("dropdownState2", new SelectList(string.Empty, "Value", "Text"), "Please select a state", new { @style = "width:250px;" })
+</div>

@@ -203,7 +203,6 @@ namespace DoAnWeb.Controllers
             return View(list.ToList());
         }
 
-        [ValidateAntiForgeryToken]
         public ActionResult XacNhan(string id)
         {
 

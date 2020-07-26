@@ -260,11 +260,7 @@ namespace DoAnWeb.Controllers
 
         public ActionResult ConfirmBuy(string id)
         {
-            ViewBag.MATP = new SelectList(db.PHUONGXAs.Where(x => x.MAQH.Equals(id)), "MAPX", "TENPX");
             ViewBag.MAPTTT = new SelectList(db.PHUONGTHUCTHANHTOANs, "MAPTTT", "TENPTTT");
-            var qh = db.QUANHUYENs.Find(id);
-            ViewBag.TENTP = qh.THANHPHO.TENTP;
-            ViewBag.TENQH = qh.TENQH;
             return View();
         }
 
@@ -283,7 +279,8 @@ namespace DoAnWeb.Controllers
                 if (gIOHANG.LOINHAN == null || gIOHANG.LOINHAN.Replace(" ", "").Length <= 0)
                     gIOHANG.LOINHAN = "Không có";
                 List<CTMH> ctghs = Session["giohang"] as List<CTMH>;
-                gIOHANG.MAGH = GetNewCartId();
+                var id = GetNewCartId();
+                gIOHANG.MAGH = id;
                 db.GIOHANGs.Add(gIOHANG);
                 db.SaveChanges();
                 foreach (var item in ctghs)
@@ -299,7 +296,7 @@ namespace DoAnWeb.Controllers
                     db.SaveChanges();
                 }
                 Session["giohang"] = null;
-                return RedirectToAction("CheckOutResult", "User", new { success = true, cart = gIOHANG});
+                return RedirectToAction("CheckOutResult", "User", new { success = true, id = id});
             }
 
             ViewBag.MAPTTT = new SelectList(db.PHUONGTHUCTHANHTOANs, "MAPTTT", "TENPTTT", gIOHANG.MAPTTT);
@@ -309,8 +306,9 @@ namespace DoAnWeb.Controllers
             return View(gIOHANG);
         }
 
-        public ActionResult CheckOutResult(bool success, GIOHANG gh)
+        public ActionResult CheckOutResult(bool success, string id)
         {
+            var gh = db.GIOHANGs.Find(id);
             ViewBag.SC = success;
             return View(gh);
         }

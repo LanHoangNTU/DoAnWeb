@@ -51,8 +51,9 @@ grid.Column("HOTENKH","Tên khách hàng", format:@<text><h5>@item.HOTENKH</h5><
 grid.Column("SDTKH","Số điện thoại", format:@<text><h5>@item.SDTKH</h5></text>),
 grid.Column("TONGTIEN","Tổng tiền", format:@<text> @item.TONGTIEN.ToString("#,##0")</text>),
 grid.Column("Thao tác", format:@<text><div class="btn-group">
-    @Html.ActionLink("Xác nhận đơn hàng", "XacNhan", "QuanTri", new { id = item.MAGH}, new{ onclick = "return confirm('Đồng ý xác nhận?');", Class = "btn btn-success"})
-    @Html.ActionLink("Hủy đơn hàng", "Delete", "GIOHANGs", new { id = item.MAGH}, new{ onclick = "return confirm('Đồng ý hủy?');",  Class = "btn btn-danger"})
+    @Html.ActionLink("Xác nhận đơn hàng", "XacNhan", "QuanTri", new { id = item.MAGH}, new{ onclick = "return confirm('Đồng ý xác nhận?');", Class = ""})
+    <br />
+    @Html.ActionLink("Hủy đơn hàng", "Delete", "GIOHANGs", new { id = item.MAGH}, new{ onclick = "return confirm('Đồng ý hủy?');",  Class = ""})
     </div></text>),
 })
 </div>

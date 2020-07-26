@@ -13,7 +13,9 @@ namespace DoAnWeb.Models
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
+    [Table("THANHPHO")]
     public partial class THANHPHO
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,7 +23,7 @@ namespace DoAnWeb.Models
         {
             this.QUANHUYENs = new HashSet<QUANHUYEN>();
         }
-    
+        [Key]
         public string MATP { get; set; }
         [Required(ErrorMessage = "Không được bỏ trống")]
         [StringLength(20, ErrorMessage = "Tối đa 200 ký tự")]

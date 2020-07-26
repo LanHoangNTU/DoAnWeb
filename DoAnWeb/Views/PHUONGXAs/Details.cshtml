@@ -4,32 +4,68 @@
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+    <style>
 
-<h2>Details</h2>
+        .i-1 {
+            width: 120px;
+        }
 
-<div>
-    <h4>PHUONGXA</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.TENPX)
-        </dt>
+        .i-2 {
+            width: 50px;
+        }
 
-        <dd>
-            @Html.DisplayFor(model => model.TENPX)
-        </dd>
+        .btn-group {
+            margin-bottom: 5px;
+        }
+    </style>
+    <h2>Chi tiết</h2>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.QUANHUYEN.MATP)
-        </dt>
+    <div class="row">
+        <div class="col-lg-6 row">
+            <div class="col-lg-6">
+                <h4>Mã: </h4>
+                <h4>Thành phố: </h4>
+                <h4>Quận - huyện: </h4>
+                <h4>Tên phường - xã: </h4>
+            </div>
+            <div class="col-lg-6">
+                <h4><b class="id">#@Model.MAPX</b> </h4>
+                <h4><b>@Model.QUANHUYEN.THANHPHO.TENTP</b> </h4>
+                <h4><b>@Model.QUANHUYEN.TENQH</b></h4>
+                <h4><b>@Model.TENPX</b></h4>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="btn-group"
+                 onclick="location.href = '@Url.Action("Edit", "PHUONGXAs", new{ id = Model.MAPX})'">
+                <button class="btn btn-warning i-1">
+                    Sửa
+                </button>
+                <button class="btn btn-warning i-2">
+                    <i class="fa fa-edit"></i>
+                </button>
+            </div><br />
+            @if (Model.GIOHANGs.Count > 0)
+            {
+                <div class="btn-group">
+                    <button class="btn btn-danger i-1" disabled>
+                        Xóa
+                    </button>
+                    <button class="btn btn-danger i-2" disabled>
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </div>
+            }
+            else
+            {
+                <div class="btn-group">
+                    @Html.ActionLink("Xóa", "Delete", new { id = Model.MAPX }, new { onclick = "return confirm('Bạn có muốn xóa phường / xã này?');", Class = "btn btn-danger i-1" })
 
-        <dd>
-            @Html.DisplayFor(model => model.QUANHUYEN.MATP)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.MAPX }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+                    <a href="@Url.Action("Delete", "PHUONGXAs", new { id = Model.MAPX})" class="btn btn-danger i-2"
+                       onclick="return confirm('Bạn có muốn xóa phường / xã này?');">
+                        <i class="fa fa-remove"></i>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
