@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     var grid = new WebGrid(Model, canPage: true, defaultSort: "QUANHUYENs.Count", rowsPerPage: 15);
 }
-
+    <h2>KHU VỰC GIAO HÀNG</h2>
 <hr />
 <a href="@Url.Action("Create", "THANHPHOes")" class="btn btn-success">Thêm Thành phố</a>
 <div id="gridContent">
@@ -20,9 +20,9 @@
 grid.Column("MATP","Mã", format:@<text><h5>@item.MATP</h5></text>),
 grid.Column("TENTP","Tên", format:@<text> <h5 style="color: @(item.QUANHUYENs.Count>0?"green":"red")">@item.TENTP</h5></text>),
 grid.Column("QUANHUYENs.Count","Số Quận / Huyện", format:@<text> <h5 style="color: @(item.QUANHUYENs.Count>0?"green":"red")">@item.QUANHUYENs.Count</h5></text>),
-grid.Column("","", format:@<text> 
+grid.Column("","", format:@<text>
     <a href="@Url.Action("Details", "THANHPHOes", new{ id = item.MATP})">Xem chi tiết</a>
-    </text>),
+</text>),
 })
 </div>
 

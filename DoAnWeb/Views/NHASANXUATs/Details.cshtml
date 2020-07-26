@@ -81,7 +81,7 @@
                     {
                         <tr>
                             <td>@item.Key.TENLOAI</td>
-                            <td>@item.Key.MATHANGs.Count</td>
+                            <td>@item.Key.MATHANGs.Where(m => m.MANSX.Equals(Model.MANSX)).Count()</td>
                         </tr>
                     }
                 }

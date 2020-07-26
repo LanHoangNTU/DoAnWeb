@@ -73,22 +73,6 @@ namespace DoAnWeb.Controllers
             }
             return View(mATHANG);
         }
-        public ActionResult Comments(string id, int? page)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var commts = db.MATHANGs.Find(id).BINHLUANs.OrderByDescending(m => m.NGAYGUI);
-            if (commts == null)
-            {
-                return HttpNotFound();
-            }
-            int pageNumber = (page ?? 1);
-            ViewBag.List = db.MATHANGs.Find(id).BINHLUANs.OrderByDescending(m => m.NGAYGUI)
-                .ToPagedList(1, 15);
-            return RedirectToAction("AddComment", new { id = id, page = page});
-        }
         public string NewCommentId()
         {
             var idMax = db.BINHLUANs.ToList().Select(n => n.MABL).Max();

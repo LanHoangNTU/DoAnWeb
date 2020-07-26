@@ -109,7 +109,9 @@ create table BINHLUAN
 	MABL varchar(12) primary key,
 	MAMH VARCHAR(10) not null foreign key references MATHANG(MAMH)
 	on update cascade on delete cascade,
-	NOIDUNG nvarchar(250) not null
+	NOIDUNG nvarchar(250) not null,
+	NGAYGUI date not null,
+	TENKH nvarchar(20) null
 )
 GO
 create table DANHGIA

@@ -344,8 +344,6 @@
     <Content Include="Views\GIOHANGs\Details.cshtml" />
     <Content Include="Views\GIOHANGs\Edit.cshtml" />
     <Content Include="Views\GIOHANGs\Index.cshtml" />
-    <Content Include="Views\User\Select_1.cshtml" />
-    <Content Include="Views\User\Select_2s.cshtml" />
     <Content Include="Views\User\CheckOutResult.cshtml" />
     <Content Include="Views\QuanTri\LoginForm.cshtml" />
     <Content Include="Views\QuanTri\Index.cshtml" />
